@@ -1,0 +1,263 @@
+@import url(https://fonts.googleapis.com/earlyaccess/notosanstc.css);
+
+
+.header-logo {
+  height: 40px;
+  float: left;
+}
+
+.floating-action{
+    background-color: #33D4C6;
+    margin: 3vw;
+    float: right;
+    box-shadow: 1px 1px 5px grey;
+    &.text-white{
+        .text-emphasis-variant(@state-white-text);
+    }
+}
+
+
+.header-font {
+  font-family: Noto Sans TC, sans-serif;
+  font-size: 1rem;
+  margin-left: 2px;
+}
+
+.form-font{
+  font-family: Noto Sans TC, sans-serif;
+  font-size: 1rem;  
+}
+
+.title-font{
+  font-family: Noto Sans TC, sans-serif;
+  font-size: 1.5rem;  
+}
+
+.btn-link {
+  &.text-muted {
+    .text-emphasis-variant(@state-muted-text);
+  }
+}
+
+.carousel-inner {
+  width: 100%;
+  max-height: 380px !important;
+}
+
+#tr_space {
+  height: 5vw;
+  width: 100%;
+}
+
+/***********************************/
+
+
+/***********************************/
+/***********************************/
+
+.sideBar{
+	position: absolute;
+	width: 300px;
+	left: 30px;
+	top: 92px;
+}
+
+.filterTitle{
+	font-family: Noto Sans TC, sans-serif;
+    font-size: 20px;
+    margin-left: 2px;
+}
+
+
+/***********************************/
+/***********************************/
+.locationFilter{
+	float: right;
+	width: 300px;
+	background: #F5F5F5	;
+	padding: 24px 40px 24px 40px;
+    border-bottom: 10px solid #FFFFFF;
+    
+}
+
+.locationFilter .locationFilterTitle{
+	display: block;
+	font-family: Noto Sans TC, sans-serif;
+	font-size: 20px;
+	font-weight: bold;
+
+	color: #000000;
+}
+
+
+
+.locationFilter .locationRadioBox{
+	display: inline-block;
+	min-width: 105px;
+	margin-top: 11px;
+}
+
+.locationFilter .locationRadioBox .locationRadio{
+	width: 16px;
+	height: 16px;
+}
+
+.locationFilter .locationRadioBox .locationRadio:hover{
+	cursor: pointer;
+}
+
+.locationFilter .locationRadioBox label{
+	font-family: Noto Sans TC, sans-serif;
+	font-size: 16px;
+	color: #000000;
+}
+
+.locationFilter .locationRadioBox label:hover{
+	cursor: pointer;
+}
+
+/***********************************/
+/***********************************/
+.priceFilter{
+	float: right;
+	width: 300px;
+	background: #F5F5F5	;
+	padding: 24px 40px 24px 40px;
+    border-bottom: 10px solid #FFFFFF;
+    
+}
+
+.priceFilter .priceFilterTitle{
+	display: block;
+	font-family: Noto Sans TC, sans-serif;
+	font-size: 20px;
+	font-weight: bold;
+
+	color: #000000;
+}
+
+
+
+.priceFilter .priceRadioBox{
+	display: inline-block;
+	min-width: 105px;
+	margin-top: 11px;
+}
+
+.priceFilter .priceRadioBox .priceRadio{
+	width: 16px;
+	height: 16px;
+}
+
+.priceFilter .priceRadioBox .priceRadio:hover{
+	cursor: pointer;
+}
+
+.priceFilter .priceRadioBox label{
+	font-family: Noto Sans TC, sans-serif;
+	font-size: 16px;
+	color: #000000;
+}
+
+.priceFilter .priceRadioBox label:hover{
+	cursor: pointer;
+}
+
+/***********************************/
+/***********************************/
+
+
+.guideClass{
+	float: left;
+	font-family: Noto Sans TC, sans-serif;
+	font-size: 16px;
+	color: #000000;
+	font-weight: bold;
+	margin-top: 16px;
+}
+
+.guidePriceClass{
+	float: left;
+	font-family: Noto Sans TC, sans-serif;
+	font-size: 16px;
+	color: #000000;
+	font-weight: bold;
+	margin-top: 16px;
+}
+
+
+ .guidecourseClass{
+	float: left;
+	background: #B0B0B0;
+	border-radius: 100px;
+	margin-top: 13px;
+	margin-left: 20px;
+	padding: 3px 16px 3px 16px;
+	font-family: Noto Sans TC, sans-serif;
+	font-size: 16px;
+	color: #FFFFFF;
+	text-align: center;
+}
+
+.clearfix{
+	clear: both;
+}
+/***********************************/
+/***********************************/
+
+.courseFilter{
+	float: right;
+	width: 300px;
+	background: #F5F5F5;
+	padding: 24px 40px 24px 40px;
+}
+
+.courseFilter .courseFilterTitle{
+	display: block;
+	font-family: Noto Sans TC, sans-serif;
+	font-size: 20px;
+	font-weight: bold;
+	color: #000000;
+}
+
+.courseFilter .courseCheckBox{
+	display: inline-block;
+	min-width: 105px;
+	margin-top: 11px;
+}
+
+.courseFilter .courseCheckBox .courseCheck{
+	width: 16px;
+	height: 16px;
+}
+
+.courseFilter .courseCheckBox .courseCheck:hover{
+	cursor: pointer;
+}
+
+.courseFilter .courseCheckBox label{
+	font-family: Noto Sans TC, sans-serif;
+	font-size: 16px;
+	color: #000000;
+}
+
+.courseFilter .courseCheckBox label:hover{
+	cursor: pointer;
+}
+/***********************************/
+
+@media (max-width: 575.98px) { 
+
+}
+@media (min-width: 576px) and (max-width: 767.98px) { 
+  
+}
+@media (min-width: 768px) and (max-width: 991.98px) {
+  
+}
+@media (min-width: 992px) and (max-width: 1199.98px) {
+
+}
+@media (min-width: 1200px) {
+  
+}

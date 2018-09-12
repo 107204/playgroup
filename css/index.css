@@ -1,0 +1,139 @@
+@import url(https://fonts.googleapis.com/earlyaccess/notosanstc.css);
+
+.header-logo {
+  height: 40px;
+  float: left;
+}
+
+.floating-action{
+    background-color: #33D4C6;
+    margin: 3vw;
+    float: right;
+    box-shadow: 1px 1px 5px grey;
+    &.text-white{
+        .text-emphasis-variant(@state-white-text);
+    }
+}
+
+.header-font {
+  font-family: Noto Sans TC, sans-serif;
+  font-size: 1rem;
+  margin-left: 2px;
+}
+
+.form-font{
+  font-family: Noto Sans TC, sans-serif;
+  font-size: 1rem;  
+}
+
+.title-font{
+  font-family: Noto Sans TC, sans-serif;
+  font-size: 1.5rem;  
+}
+
+.btn-link {
+  &.text-muted {
+    .text-emphasis-variant(@state-muted-text);
+  }
+}
+
+.carousel-inner {
+  width: 100%;
+  max-height: 380px !important;
+}
+
+.container{
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.card-deck{
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.courseitem{
+  margin-bottom: 20px;
+}
+
+.col-xs-12 {
+    padding-right: 7.5px;
+    padding-left: 7.5px;
+}
+
+.card{
+  background-color: white;
+  border-radius: 6px;
+}
+
+.card-body{
+  height: 110px;
+  padding: 10px;
+}
+
+.card-deck a{
+  text-decoration:none;
+}
+
+.card-deck h3{
+  font-family: Noto Sans TC, sans-serif;
+  font-size: 1.2rem; 
+  color: black;
+}
+
+.card-img-top {
+    width: 100%;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+
+#tr_space {
+  height: 20px;
+  width: 100%;
+}
+
+#DIV1 {
+  width:auto;
+  line-height:4px;
+  margin-right:10px;
+  margin-top:4px;
+  float:left;
+}
+
+#city{
+  font-family: Noto Sans TC, sans-serif;
+  font-size: 1rem;
+  color: #33D4C6;
+}
+
+#twd{
+  font-family: Lucida Sans Unicode;
+  font-size: 0.8rem;
+  color: #888888;
+}
+
+#price{
+  font-family: Lucida Console;
+  font-size: 1.2rem;
+  color: #20B2AA;
+  font-weight: 1000;
+}
+
+
+
+@media (max-width: 575.98px) { 
+
+}
+@media (min-width: 576px) and (max-width: 767.98px) { 
+  
+}
+@media (min-width: 768px) and (max-width: 991.98px) {
+  
+}
+@media (min-width: 992px) and (max-width: 1199.98px) {
+
+}
+@media (min-width: 1200px) {
+  
+}
