@@ -19,21 +19,21 @@
   </nav>
 
   <div class="enroll">
-	  <div class="container-fluid outside">
-	    <div id="tr_space"></div>
+    <div class="container-fluid outside">
+      <div id="tr_space"></div>
       <p class="title-font">註冊</p>
-      <div class="border border-secondary rounded inside">
-        <form action="finish.php" method="post" name="form2" class="needs-validation" novalidate>
-      	  <?php
-         	$name=$_POST['userName'];
-         	$number=$_POST['number'];
-         	$pwd=$_POST['pwd1'];
-         	$email=$_POST['email'];
-         	$gen=$_POST['gen'];
-         	$pos=$_POST['pos']; 
+      <div class="rounded inside">
+        <form action="accountFinish.php" method="post" name="form2" class="needs-validation" novalidate>
+          <?php
+          $name=$_POST['userName'];
+          $number=$_POST['number'];
+          $pwd=$_POST['pwd1'];
+          $email=$_POST['email'];
+          $gen=$_POST['gen'];
+          $pos=$_POST['pos']; 
           ?>
 
-  		    <input type="hidden" name="userName" value="<?php echo $name; ?>">
+          <input type="hidden" name="userName" value="<?php echo $name; ?>">
           <input type="hidden" name="number" value="<?php echo $number; ?>">
           <input type="hidden" name="pwd" value="<?php echo $pwd; ?>">
           <input type="hidden" name="email" value="<?php echo $email; ?>">
@@ -113,11 +113,11 @@
 
           <div class="confirm">
             <input type="button" class="btn btn-outline-danger" onclick="history.back()" value="上一步">
-            <button type="submit" class="btn btn-outline-info">送出</button>
+            <button type="submit" class="btn btn-outline-info" onclick="confirmDialog()">送出</button>
           </div>
-      	</form>
+        </form>
       </div>
-	  </div>
+    </div>
   </div>
 
   
@@ -131,27 +131,16 @@
     $(wrapper).empty();
     for (x=0; x < total; x++){
       $(wrapper).append('<div id="kidinfo'+ x +'" class="border border-muted rounded" style="padding:2vw; ' + 
-                        'margin-bottom: 5px;">#'+ (x+1) +'<div class="form-group row"><label for="kidName'+ x +'" class="col-sm-3 col-form-label">孩童姓名</label><div class="col-sm-8"><input type="text" class="form-control" name="kidName'+ x +'" required><div class="invalid-feedback">請務必填寫</div></div></div><div class="form-group row"><label for="kidGen'+ x +'" class="col-sm-3 col-form-label">孩童性別</label><div class="col-sm-8"><select class="form-control" name="kidGen'+ x +'" required><option></option><option>男</option><option>女</option></select><div class="invalid-feedback">請務必填寫</div></div></div><div class="form-group row"><label for="kidAge'+ x +'" class="col-sm-3 col-form-label">孩童年齡</label><div class="col-sm-8"><input type="text" class="form-control" name="kidAge'+ x +'" placeholder="eg.2歲5個月，請輸入2.5" required><div class="invalid-feedback">請務必填寫</div></div></div></div>');
+                        'margin-bottom: 5px;">#'+ (x+1) +'<div class="form-group row"><label for="kidName'+ x +'" class="col-sm-3 col-form-label">孩童姓名</label><div class="col-sm-8"><input type="text" class="form-control" name="kidName'+ x +'" required><div class="invalid-feedback">請務必填寫</div></div></div><div class="form-group row"><label for="kidGen'+ x +'" class="col-sm-3 col-form-label">孩童性別</label><div class="col-sm-8"><select class="form-control" name="kidGen'+ x +'" required><option></option><option>男</option><option>女</option></select><div class="invalid-feedback">請務必填寫</div></div></div><div class="form-group row"><label for="kidBirth'+ x +'" class="col-sm-3 col-form-label">孩童生日</label><div class="col-sm-8"><input type="date" class="form-control" name="kidBirth'+ x +'" required><div class="invalid-feedback">請務必填寫</div></div></div></div>');
     }
   }
   </script>
 
   <script>
-  (function() {
-    'use strict';
-    window.addEventListener('load', function() {          
-      var forms = document.getElementsByClassName('needs-validation');
-        var validation = Array.prototype.filter.call(forms, function(form) {
-          form.addEventListener('submit', function(event) {
-            if (form.checkValidity() === false) {
-              event.preventDefault();
-              event.stopPropagation();
-            }
-          form.classList.add('was-validated');
-        }, false);
-      });
-    }, false);
-  })();
+  function confirmDialog(){
+   if(confirm("確定送出嗎？")){
+   }
+  }
   </script>
 
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js " integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo " crossorigin="anonymous "></script>

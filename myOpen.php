@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-tw">
+<html lang="en" >
 
 <head>
   <meta charset="utf-8">
@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="css/index.css">
   <link rel="stylesheet" type="text/css" href="css/sidenav.css">
+  <link rel="stylesheet" type="text/css" href="css/myInfo.css">
   <title>Playgroup</title>
 </head>
 
@@ -19,9 +20,9 @@
   $old_url = $_SERVER["REQUEST_URI"];
   $check = strpos($old_url, '?');
   if($check !== false){
-    $refer = base64_decode($_GET['refer']);
+    $refer=base64_decode($_GET['refer']);
     if($refer== 'nolog'){ ?>
-      
+            
       <nav class="navbar navbar-expand-xl navbar-light header-font">
         <a class="navbar-brand float-left" href="index.php">
           <img src="http://140.131.114.155/playgroup/pic/title.png" class="header-logo">
@@ -151,14 +152,7 @@
             </li>
           </ul>
         </div>
-      </nav>
-
-      <div class="fixed-bottom" id="fab">
-        <a href="addCourse.php?refer=<?php echo $uid; ?>" role="button" class="btn btn-lg rounded-circle floating-action" data-toggle="tooltip" data-placement="top" title="新增課程">
-          <span class="fas fa-plus text-white" />
-        </a>
-      </div>
-                
+      </nav>            
   <?php 
     } 
   }else{
@@ -166,82 +160,100 @@
   }  ?>
 
 
-  <!--Carousel-->
-  <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-    <ol class="carousel-indicators" id="cindicators">
-      <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-      <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-    </ol>
-    <div class="carousel-inner">
-      <div class="carousel-item active">
-        <img class="d-block w-100 headerPic" src="pic/index/a.png" alt="First slide">
-      </div>
-      <div class="carousel-item">
-        <img class="d-block w-100 headerPic" src="pic/index/b.png" alt="Second slide">
-      </div>
-      <div class="carousel-item">
-        <img class="d-block w-100 headerPic" src="pic/index/c.png" alt="Third slide">
-      </div>
-    </div>
-    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="sr-only">Previous</span>
-    </a>
-    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="sr-only">Next</span>
-    </a>
-  </div>
- 
-  <div id="tr_space"></div>
+  <?php
+  require 'config.php';
+  $refer = base64_decode($_GET['refer']);
+  ?>
+   
+  <div class="sttngs">
+    <h2>已開課程</h2>
+    <div class="tabordion">
+      <section id="section1">
+        <input class="t" type="radio" name="sections" id="option1" checked>
+        <label for="option1" class="trr">已開設</label>
+        <article>    
+          <div class="tr">
+            <div class="card-deck">
+            <?php
+            $sqlc = "SELECT course.courseNo, course, city, district, price, coursePic FROM account INNER JOIN (course 
+                     INNER JOIN courseTime ON course.courseNo = courseTime.courseNo) ON account.userNo = course.userNo 
+                     WHERE cookie = '$refer' AND complete = 0";
+            $stmtc = sqlsrv_query( $conn, $sqlc );
+            if(sqlsrv_has_rows($stmtc)){
+              while($rowc = sqlsrv_fetch_array( $stmtc, SQLSRV_FETCH_NUMERIC)){;?>
 
-  <h2>目前好課</h2>
-
-  <div id="tr_space"></div>
-
-  <div class="container-fluid">
-    <div class="card-deck">
-      <?php
-      require 'config.php';
-
-      $old_url = $_SERVER["REQUEST_URI"];
-      $check = strpos($old_url, '?');
-      if($check !== false){
-
-        $refer=$_GET['refer'];
-
-        $sql = "SELECT course.courseNo, course, city, district, price, coursePic FROM course";
-        $stmt = sqlsrv_query( $conn, $sql );
-        while($row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_NUMERIC)){ ?>
-
-        <div class="col-xs-12 col-md-6 col-lg-3 courseitem">
-          <a href="course.php?refer=<?php echo $refer; ?>&cNo=<?php echo $row[0]; ?>">
-            <div class="card">
-              <img class="card-img-top" src="<?php echo $row[5]; ?>" alt="Card image cap">
-              <div class="card-body">
-                <h3><?php echo $row[1]; ?></h3>
-                <div id="DIV1">
-                  <i class="fas fa-map-marker-alt" width="18" height="18" style="color: #33D4C6;"></i>
+                <div class="col-xs-12 col-md-6 col-lg-4 courseitem">
+                  <a href="courseDetail.php?refer=<?php echo base64_encode($refer); ?>&cNo=<?php echo $rowc[0]; ?>">
+                    <div class="card">
+                      <img class="card-img-top" src="<?php echo $rowc[5]; ?>" alt="Card image cap">
+                      <div class="card-body">
+                        <h3><?php echo $rowc[1]; ?></h3>
+                        <div id="DIV1">
+                          <i class="fas fa-map-marker-alt" width="18" height="18" style="color: #33D4C6;"></i>
+                        </div>
+                        <p id="city"><?php echo $rowc[2]; ?> &nbsp; <?php echo $rowc[3]; ?></p>
+                        <p align=right>
+                          <span id="twd">TWD</span> 
+                          <span id="price"><?php echo $rowc[4]; ?></span>
+                        </p>
+                      </div>
+                    </div>
+                  </a>
                 </div>
-                <p id="city"><?php echo $row[2]; ?>&nbsp;<?php echo $row[3]; ?></p>
-                <p align=right>
-                  <span id="twd">TWD</span> 
-                  <span id="price"><?php echo $row[4]; ?></span>
-                </p>
+              <?php }
+            }else{ ?>
+              <div class="noresult">
+                <i class="fas fa-exclamation-circle"></i>
+                尚未開設課程
               </div>
-            </div>
-          </a>
-        </div>
-     <?php }
-        } ?>
-    </div>
-  </div>
-  
-  <div id="tr_space"></div>
+            <?php } ?>
+          </div>
+          </div>
+        </article>
+      </section>
 
-  <div class="footer">
-    <img src="pic/about/4.png" class="img-fluid" alt="Responsive image">
+      <section id="section2">
+        <input class="t" type="radio" name="sections" id="option2">
+        <label for="option2" class="trr">已完成</label>
+        <article>
+          <div class="tr">
+            <?php
+            $sqlca = "SELECT course.courseNo, course, city, district, price, coursePic FROM account INNER JOIN (course 
+                      INNER JOIN courseTime ON course.courseNo = courseTime.courseNo) ON account.userNo = course.userNo 
+                      WHERE cookie = '$refer' AND complete = 1";
+            $stmtca = sqlsrv_query( $conn, $sqlca );
+            if(sqlsrv_has_rows($stmtca)){
+              while($rowca = sqlsrv_fetch_array( $stmtca, SQLSRV_FETCH_NUMERIC)){;?>
+
+                <div class="col-xs-12 col-md-6 col-lg-4 courseitem">
+                  <a href="course.php?refer=<?php echo base64_encode($refer); ?>&cNo=<?php echo $rowca[0]; ?>">
+                    <div class="card">
+                      <img class="card-img-top" src="<?php echo $rowca[5]; ?>" alt="Card image cap">
+                      <div class="card-body">
+                        <h3><?php echo $rowca[1]; ?></h3>
+                        <div id="DIV1">
+                          <i class="fas fa-map-marker-alt" width="18" height="18" style="color: #33D4C6;"></i>
+                        </div>
+                        <p id="city"><?php echo $rowca[2]; ?> &nbsp; <?php echo $rowca[3]; ?></p>
+                        <p align=right>
+                          <span id="twd">TWD</span> 
+                          <span id="price"><?php echo $rowca[4]; ?></span>
+                        </p>
+                      </div>
+                     </div>
+                  </a>
+                </div>
+                <?php }
+                }else{ ?>
+                  <div class="noresult">
+                    <i class="fas fa-exclamation-circle"></i>
+                    尚未收藏課程
+                  </div>
+                <?php } ?>
+          </div>
+        </article>
+      </section>
+    </div>
   </div>
 
   <!-- Modal -->
@@ -404,8 +416,42 @@
   </div>
 
 
-
   <script>
+  $("document").ready(function () {
+    var textmax=500;
+    $("#count").text(textmax + ' character left');
+    $("#bio").keyup(function(){
+      var userlenght= $("#bio").val().length;
+      var remain= textmax - userlenght ;
+      $("#count").text(remain + ' characters left');   
+    });  
+  });
+
+
+  document.getElementById('getval').addEventListener('change', readURL, true);
+  function readURL(){
+      var file = document.getElementById("getval").files[0];
+      var reader = new FileReader();
+      reader.onloadend = function(){
+          document.getElementById('profile-upload').style.backgroundImage = "url(" + reader.result + ")";        
+      }
+      if(file){
+          reader.readAsDataURL(file);
+      }else{
+    }
+  }
+
+  $(function () {
+    var $text = $('#texte');
+    var $input = $('.texte');
+    $input.on('keydown', function () {
+      setTimeout(function () {
+        $text.html($input.val());
+      }, 0);
+    });
+  })
+
+  
   function openNav() {
     document.getElementById("mySidenav").style.width = "250px";
     document.getElementById("fab").style.visibility = "hidden";
@@ -418,12 +464,10 @@
     document.getElementById("cindicators").style.visibility = "visible";
   }
   </script>
-`
 
-  <!--script-->
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 </body>
 
 </html>

@@ -1,0 +1,44 @@
+.title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    padding-left: 10px;
+    border-left: 4px solid #333;
+    height: 24px;
+    line-height: 24px;
+    position: relative;
+}
+
+.con {
+    display: block;
+}
+
+.card-group {
+    display: inline-block;
+    margin: 0px;
+}
+
+.card-group img.pay-kind-img {
+    width: 50px;
+    height: 32px;
+    border: 1px solid #eee;
+    margin: 0px 5px 5px 0px;
+    border-radius: 2px;
+}
+
+.td{
+  text-align: center;
+}
+
+#price{
+  font-family: Lucida Console;
+  font-size: 1.2rem;
+  color: #20B2AA;
+  font-weight: 1000;
+}
+
+#tPrice{
+  font-family: Lucida Console;
+  font-size: 1.5rem;
+  color: #20B2AA;
+  font-weight: 1000;
+}

@@ -23,7 +23,7 @@
     <div class="container-fluid">
       <div id="tr_space"></div>
       <p class="title-font">登入</p>
-      <div class="border border-secondary rounded inside">
+      <div class="rounded inside">
 
         <?php 
         $old_url = $_SERVER["REQUEST_URI"];
@@ -32,7 +32,7 @@
             if(substr($old_url, $check+1) == ''){
               echo '';
           }else{
-              if($_GET['refer']==md5('nologin')){
+              if(base64_decode($_GET['refer']) == 'nolog'){
                 echo '<div class="alert alert-danger" role="alert">帳號密碼輸入錯誤！</div>';
               }
           }
@@ -59,7 +59,7 @@
           <input type="hidden" name="refer" value="<?php echo (isset($_GET['refer'])) ? $_GET['refer'] : 'index.php'; ?>">
 
           <div class="modal-footer form-font">
-            <a href="enroll1.php" class="text-muted mr-auto" style="font-size: 0.9rem;">還沒有註冊嗎？</a>
+            <a href="register1.php" class="text-muted mr-auto" style="font-size: 0.9rem;">還沒有註冊嗎？</a>
             <a href="index.php" class="btn btn-outline-secondary" role="button" aria-pressed="true">取消</a>
             <button type="submit" class="btn btn-outline-info">登入</button>
           </div>

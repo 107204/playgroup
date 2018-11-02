@@ -1,7 +1,11 @@
 @import url(https://fonts.googleapis.com/earlyaccess/notosanstc.css);
 
 .enroll{
-  background-color: #CBF1EA;
+  background-color: #53D9CD;
+}
+
+.navbar{
+  background-color: white;
 }
 
 .header-logo {
@@ -9,10 +13,15 @@
   float: left;
 }
 
+.bg-light{
+  background-color: white;
+}
+
 .title-font{
   font-family: Noto Sans TC, sans-serif;
-  font-size: 1.5rem; 
+  font-size: 1.8rem; 
   text-align: center; 
+  color: #F5FFFA;
 }
 
 
@@ -29,6 +38,12 @@
 
 .title{
   margin-bottom: 1vw;
+}
+
+.img {
+  max-width: 150px; 
+  max-height: 150px;
+  margin: 5px;
 }
 
 .confirm{

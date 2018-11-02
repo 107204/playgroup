@@ -9,7 +9,6 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="css/course.css">
   <link rel="stylesheet" type="text/css" href="css/sidenav.css">
-  <link rel="stylesheet" type="text/css" href="css/comment.css">
   <title>Playgroup</title>
 </head>
 
@@ -250,33 +249,6 @@
       <div class="infodetail">
         <p><?php echo $row[12]; ?></p>
       </div>
-
-     <!-- comments -->
-      <div class="content">
-  <div class="comments">
-    <div class="editor">
-      <div id="text" class="editor-content" contenteditable>
-        <p>新增留言..</p>
-      </div>
-    </div>
-    <div class="insert-text">
-      <span class="loading">Loading...</span>
-      <span class="total-comment"></span>
-      <p>
-        <input type="submit" value="留言" />
-      </p>
-    </div>
-    <div class="list-comments">
-      <div>
-      <p>
-        <span id="parentsImg"><img src="pic/Oval.png" width="50"></span>
-        <span id="msg">Hello!</span>
-      </p>
-      </div>
-    </div>
-  </div>
-</div>
-
     </div>
 
     <div class="col-md-4">
@@ -297,18 +269,19 @@
         if($check !== false){
           $refer=$_GET['refer']; 
           ?>
-          <form action="applyCourse.php" method="post" name="applyl">
+          <form action="#" method="post" name="applyl">
             <input type="hidden" name="cNo" value="<?php echo $cNo; ?>">
             <input type="hidden" name="refer" value="<?php echo $refer; ?>">
-            <button type="submit" class="btn btn-info btn-block pricebtn">我要報名</button>
+            <button type="submit" class="btn btn-outline-info btn-block pricebtn">完成課程</button>
           </form>
+
+            <form action="student.php" method="post" name="student"> 
+              <input type="hidden" name="cNo" value="<?php echo $cNo; ?>">
+              <input type="hidden" name="refer" value="<?php echo $refer; ?>">
+              <button type="submit" class="btn btn-outline-danger collectbtn">學生資訊</button>
+            </form>
         <?php } ?>
-        <form> 
-          <button type="button" class="btn btn-outline-danger collectbtn">
-            <i class="far fa-heart"></i>
-            收藏課程
-          </button>
-        </form>
+        
       </div>
     </div>
   </div>
@@ -332,57 +305,6 @@
     document.getElementById("fab").style.visibility = "visible";
     document.getElementById("cindicators").style.visibility = "visible";
   }
-  </script>
-
-  <script type="text/javascript">
-    $(document).ready(function(){
-  $(".editor-header a").click(function(e){
-    e.preventDefault();
-
-    var _val = $(this).data("role"),
-        _sizeValIn = parseInt($(this).data("size-val") + 1),
-        _sizeValRe = parseInt($(this).data("size-val") - 1),
-        _size = $(this).data("size");
-    if(_size == "in-size"){
-      document.execCommand(_val, false, _sizeValIn + "px");
-    } else{
-      document.execCommand(_val, false, _sizeValRe + "px");
-    }
-  });
-});
-
-$(document).ready(function(){
-  var $text = $("#text"),
-      $submit = $("input[type='submit']"),
-      $listComment = $(".list-comments"),
-      $loading = $(".loading"),
-      _data,
-      $totalCom = $(".total-comment");
-
-  $totalCom.text($(".list-comments > div").length);
-
-  $($submit).click(function(){
-    if($text.html() == ""){
-      alert("Plesea write a comment!");
-      $text.focus();
-    } else{
-      _data = $text.html();
-      $.ajax({
-        type: "POST",
-        url: window.local,
-        data: _data,
-        cache: false,
-        success: function(html){
-          $loading.show().fadeOut(300);
-          $listComment.append("<div>"+_data+"</div>");
-          $text.html("");
-          $totalCom.text($(".list-comments > div").length);
-        }
-      });
-      return false;
-    }
-  });
-});
   </script>
 
 

@@ -76,7 +76,7 @@
 
     <?php 
     }elseif($refer != 'nolog'){ 
-      $sql = "SELECT cookie, userPic FROM account WHERE cookie = '$refer'";
+      $sql = "SELECT cookie FROM account WHERE cookie = '$refer'";
       $stmt = sqlsrv_query( $conn, $sql );
       $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_NUMERIC); 
       $user = urlencode($row[0]); 
@@ -86,7 +86,10 @@
           <img src="http://140.131.114.155/playgroup/pic/title.png" class="header-logo">
         </a>
         <a role="button" class="rounded-circle" data-toggle="collapse" data-target="#collapsibleNavbar" onclick="openNav()">
-          <img src="<?php echo $row[1]; ?>" class="img-fluid">
+          <span class="fa-stack fa-lg">
+            <i class="far fa-circle fa-stack-2x"></i>
+            <i class="fas fa-user fa-stack-1x"></i>
+          </span>
         </a>
         <div id="mySidenav" class="sidenav">
           <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -213,7 +216,20 @@
 
         $sql = "SELECT course.courseNo, course, city, district, price, coursePic FROM course";
         $stmt = sqlsrv_query( $conn, $sql );
-        while($row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_NUMERIC)){ ?>
+        $data_nums = sqlsrv_num_rows($stmt);
+        $per = 16;
+        $pages = ceil($data_nums/$per); //取得不小於值的下一個整數
+        if (!isset($_GET["page"])){ //假如$_GET["page"]未設置
+            $page=1; //則在此設定起始頁數
+        } else {
+            $page = intval($_GET["page"]); //確認頁數只能夠是數值資料
+        }
+        $start = ($page-1)*$per; //每一頁開始的資料序號
+        $end = $start + $per;
+        $result = "SELECT course.courseNo, course, city, district, price, coursePic FROM (SELECT *, 
+                   ROW_NUMBER() OVER (ORDER BY courseNo) as row FROM course) a WHERE row >= $start and row <= $end";
+        $stmt = sqlsrv_query($result, $conn) or die("Error");
+        while($row = sqlsrv_fetch_array( $result, SQLSRV_FETCH_NUMERIC)){ ?>
 
         <div class="col-xs-12 col-md-6 col-lg-3 courseitem">
           <a href="course.php?refer=<?php echo $refer; ?>&cNo=<?php echo $row[0]; ?>">
@@ -233,12 +249,25 @@
             </div>
           </a>
         </div>
-     <?php }
-        } ?>
+     <?php } ?>
     </div>
   </div>
   
   <div id="tr_space"></div>
+
+  <?php
+    //分頁頁碼
+    echo '共 '.$data_nums.' 筆-在 '.$page.' 頁-共 '.$pages.' 頁';
+    echo "<br /><a href=?page=1>首頁</a> ";
+    echo "第 ";
+    for( $i=1 ; $i<=$pages ; $i++ ) {
+        if ( $page-3 < $i && $i < $page+3 ) {
+            echo "<a href=?page=".$i.">".$i."</a> ";
+        }
+    } 
+    echo " 頁 <a href=?page=".$pages.">末頁</a><br /><br />";
+  }
+?>
 
   <div class="footer">
     <img src="pic/about/4.png" class="img-fluid" alt="Responsive image">

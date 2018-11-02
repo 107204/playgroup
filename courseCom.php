@@ -14,16 +14,15 @@
 </head>
 
 <body>
-  <?php
-  require 'config.php';
-
-  $old_url = $_SERVER["REQUEST_URI"];
-  $check = strpos($old_url, '?');
-  if($check !== false){
-    $refer=base64_decode($_GET['refer']);
-    if($refer== 'nolog'){ ?>
-            
-      <nav class="navbar navbar-expand-xl navbar-light header-font">
+    <?php
+    require 'config.php';
+    $old_url = $_SERVER["REQUEST_URI"];
+    $check = strpos($old_url, '?');
+    if($check !== false){
+      $refer=base64_decode($_GET['refer']);
+      if($refer== 'nolog'){ ?>
+              
+        <nav class="navbar navbar-expand-xl navbar-light header-font">
         <a class="navbar-brand float-left" href="index.php">
           <img src="http://140.131.114.155/playgroup/pic/title.png" class="header-logo">
         </a>
@@ -153,173 +152,177 @@
           </ul>
         </div>
       </nav>
-                
-  <?php 
-    } 
-  }else{
-    require 'insession.php';
-  }  ?>
+                  
+    <?php 
+      } 
+    }else{
+      require 'insession.php';
+    } ?>
 
-  
-  <?php
-    require 'config.php';
-    $cNo=$_GET['cNo'];
+
+    <?php
+      require 'config.php';
+      $cNo=$_GET['cNo'];
       
-    $sql = "SELECT course.courseNo, course, city, district, address, agelower, ageupper, courseDesc, 
-            price, dueday, userName, teacher.teaName, teaDesc, coursePic FROM account INNER JOIN (course INNER JOIN teacher 
-            ON course.teaNo = teacher.teaNo) ON account.userNo = course.userNo WHERE course.courseNo = '".$cNo."'";
-    $stmt = sqlsrv_query( $conn, $sql );
-    $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_NUMERIC);
-  ?>
-  
+      $sql = "SELECT course.courseNo, course, city, district, address, agelower, ageupper, courseDesc, 
+              price, dueday, coursePic, userName, teacher.teaName, teaDesc FROM account INNER JOIN (course INNER JOIN 
+              teacher ON course.teaNo = teacher.teaNo) ON account.userNo = course.userNo WHERE course.courseNo = $cNo";
+      $stmt = sqlsrv_query( $conn, $sql );
+      $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_NUMERIC);
+    ?>
 
-  <!--Carousel-->
-  <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-    <div class="carousel-inner">
-      <div class="carousel-item active">
-        <img class="d-block w-100 headerPic" src="<?php echo $row[13]; ?>" alt="First slide">
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img class="d-block w-100 headerPic" src="<?php echo $row[10]; ?>" alt="First slide">
+        </div>
       </div>
     </div>
-  </div>
+  
+    <div class="row">
+      <div class="col-md-8 corseinfo">
+        <h1 class="title-font"><?php echo $row[1]; ?></h1>
+        <div id="bi_space"></div>
 
-  <div class="row">
-    <div class="col-md-8 corseinfo">
-      <h1 class="title-font"><?php echo $row[1]; ?></h1>
-      <div id="bi_space"></div>
-
-      <div class="infodetail">
-        <div class="col-sm-8 cfont">
-          <i class="fas fa-user"></i>
-          開課家長：
-          <span><?php echo $row[10]; ?></span>
+        <div class="infodetail">
+          <div class="col-sm-8 cfont">
+            <i class="fas fa-user"></i>
+            開課家長：
+            <span><?php echo $row[11]; ?></span>
+          </div>
         </div>
-      </div>
 
-      <div class="infodetail">
-        <div class="col-sm-8 cfont">
-          <i class="fas fa-child"></i>
-          適讀年齡：
-          <span><?php echo $row[5].'歲 - '.$row[6].'歲'; ?></span>
+        <div class="infodetail">
+          <div class="col-sm-8 cfont">
+            <i class="fas fa-child"></i>
+            適讀年齡：
+            <span><?php echo $row[5].'歲 - '.$row[6].'歲'; ?></span>
+          </div>
         </div>
-      </div>
 
-      <div class="infodetail">
-        <div class="col-sm-8 cfont">
-          <i class="fas fa-map-marker-alt"></i>
-          上課地點：
-          <span><?php echo $row[2].$row[3].$row[4]; ?></span>
+        <div class="infodetail">
+          <div class="col-sm-8 cfont">
+            <i class="fas fa-map-marker-alt"></i>
+            上課地點：
+            <span><?php echo $row[2].$row[3].$row[4]; ?></span>
+          </div>
         </div>
-      </div>
 
-      <div class="infodetail">
-        <div class="col-sm-8 cfont">
+        <div class="infodetail">
+          <div class="col-sm-8 cfont">
             
-          <?php
-          $sql1 = "SELECT courseDate, startTime, endTime, enLimit, enSum, DATEPART(hh, startTime), RIGHT('0' + CAST(DATEPART(n, startTime) AS VARCHAR),2), DATEPART(hh, endTime), RIGHT('0' + CAST(DATEPART(n, endTime) AS VARCHAR),2) FROM courseTime WHERE courseNo = '$cNo'";
-          $stmt1 = sqlsrv_query( $conn, $sql1 );
-          while( $row1 = sqlsrv_fetch_array( $stmt1, SQLSRV_FETCH_NUMERIC) ){ ?>
-          <i class="fas fa-calendar-alt"></i>
-          上課場次：
-          <span><?php echo $row1[0].' '.$row1[5].':'.$row1[6].'-'.$row1[7].':'.$row1[8]; ?></span>
-          <span>&nbsp;人數：<?php echo $row1[4].'/'.$row1[3]; ?></span><br/>
-          <?php } ?>
+            <?php
+            $sql1 = "SELECT courseDate, startTime, endTime, enLimit, enSum, DATEPART(hh, startTime), RIGHT('0' + CAST(DATEPART(n, startTime) AS VARCHAR),2), DATEPART(hh, endTime), RIGHT('0' + CAST(DATEPART(n, endTime) AS VARCHAR),2) FROM courseTime WHERE courseNo = '".$cNo."'";
+            $stmt1 = sqlsrv_query( $conn, $sql1 );
+            while( $row1 = sqlsrv_fetch_array( $stmt1, SQLSRV_FETCH_NUMERIC) ){ ?>
+            <i class="fas fa-calendar-alt"></i>
+            上課場次：
+            <span><?php echo $row1[0].' '.$row1[5].':'.$row1[6].'-'.$row1[7].':'.$row1[8]; ?></span>
+            <span>&nbsp;人數：<?php echo $row1[4].'/'.$row1[3]; ?></span><br/>
+            <?php } ?>
+          </div>
         </div>
-      </div>
 
-      <div id="bi_space"></div>
+        <div id="bi_space"></div>
 
-      <div class="infodetail">
-        <p><?php echo $row[7]; ?></p>
-      </div>
+        <div class="infodetail">
+          <p><?php echo $row[7]; ?></p>
+        </div>
 
-      <hr />
-      <div id="tr_space"></div>
+        <hr />
+        <div id="tr_space"></div>
 
-      <p class="subtitle-font">教師資訊</p>
+        <p class="subtitle-font">教師資訊</p>
         
-      <div class="infodetail">
-        <div class="col-sm-8 cfont">
-          <i class="fas fa-chalkboard-teacher"></i>
-          教師：
-          <span><?php echo $row[11]; ?></span>
+        <div class="infodetail">
+          <div class="col-sm-8 cfont">
+            <i class="fas fa-chalkboard-teacher"></i>
+            教師：
+            <span><?php echo $row[12]; ?></span>
+          </div>
+        </div>
+
+        <div id="tr_space"></div>
+
+        <div class="infodetail">
+          <p><?php echo $row[13]; ?></p>
         </div>
       </div>
 
-      <div id="tr_space"></div>
-
-      <div class="infodetail">
-        <p><?php echo $row[12]; ?></p>
-      </div>
-
-     <!-- comments -->
-      <div class="content">
-  <div class="comments">
-    <div class="editor">
-      <div id="text" class="editor-content" contenteditable>
-        <p>新增留言..</p>
-      </div>
-    </div>
-    <div class="insert-text">
-      <span class="loading">Loading...</span>
-      <span class="total-comment"></span>
-      <p>
-        <input type="submit" value="留言" />
-      </p>
-    </div>
-    <div class="list-comments">
-      <div>
-      <p>
-        <span id="parentsImg"><img src="pic/Oval.png" width="50"></span>
-        <span id="msg">Hello!</span>
-      </p>
-      </div>
-    </div>
-  </div>
-</div>
-
-    </div>
-
-    <div class="col-md-4">
-      <div class="hframe border">
-        <div class="row">
-          <div class="applyl">
-            <span>價格</span>
+      <div class="col-md-4">
+        <div class="hframe border">
+          <div class="row">
+            <div class="applyl">
+              <span>評分</span>
+            </div>
           </div>
-          <div class="applyr">
-            <span id="twd">TWD</span>
-            <span id="price"><?php echo $row[8]; ?></span>
-          </div>
-        </div>
-        <div id="hf_space"></div> 
-        <?php 
-        $old_url = $_SERVER["REQUEST_URI"];
-        $check = strpos($old_url, '?');
-        if($check !== false){
-          $refer=$_GET['refer']; 
-          ?>
-          <form action="applyCourse.php" method="post" name="applyl">
+          <div id="hf_space"></div> 
+
+          
+          <?php
+           $cNo=$_GET['cNo'];
+           $refer=base64_decode($_GET['refer']);
+      
+            $sqlc = "SELECT score, comment FROM (score INNER JOIN account ON score.userNo = account.userNo) INNER JOIN 
+                     course ON score.courseNo = course.courseNo WHERE course.courseNo = $cNo AND cookie = '$refer'";
+            $stmtc = sqlsrv_query( $conn, $sqlc );
+            if(sqlsrv_has_rows($stmtc)){
+              $rowc = sqlsrv_fetch_array( $stmtc, SQLSRV_FETCH_NUMERIC);
+              ?>
+              <p id="price"><?php echo $rowc[0]; ?></p>
+              <div class="form-group">
+                <label for="teaDesc">評論</label>
+                <textarea class="form-control" name="comment" rows="3" readonly><?php echo $rowc[1]; ?></textarea>
+              </div>
+            <?php
+            }else{
+            ?> 
+          <form action="inComment.php" method="POST">
+            <div class="star-rating">
+              <input id="star-5" type="radio" name="rating" value="5" required>
+              <label for="star-5" title="5 stars">
+                  <i class="active fa fa-star" aria-hidden="true"></i>
+              </label>
+              <input id="star-4" type="radio" name="rating" value="4" required>
+              <label for="star-4" title="4 stars">
+                  <i class="active fa fa-star" aria-hidden="true"></i>
+              </label>
+              <input id="star-3" type="radio" name="rating" value="3" required>
+              <label for="star-3" title="3 stars">
+                  <i class="active fa fa-star" aria-hidden="true"></i>
+              </label>
+              <input id="star-3" type="radio" name="rating" value="3" required>
+              <label for="star-3" title="3 stars">
+                  <i class="active fa fa-star" aria-hidden="true"></i>
+              </label>
+              <input id="star-1" type="radio" name="rating" value="1" required>
+              <label for="star-1" title="1 star">
+                  <i class="active fa fa-star" aria-hidden="true"></i>
+              </label>
+            </div>
+            <div class="form-group">
+              <label for="teaDesc">評論</label>
+              <textarea class="form-control" name="comment" rows="3" placeholder="請輸入評論"></textarea>
+            </div>
+            <?php
+            $sqlu = "SELECT userNo FROM account WHERE cookie = '$refer'";
+            $stmtu = sqlsrv_query( $conn, $sqlu );
+            $rowu = sqlsrv_fetch_array( $stmtu, SQLSRV_FETCH_NUMERIC) or die('no');
+            ?>
+
             <input type="hidden" name="cNo" value="<?php echo $cNo; ?>">
+            <input type="hidden" name="userNo" value="<?php echo $rowu[0]; ?>">
             <input type="hidden" name="refer" value="<?php echo $refer; ?>">
-            <button type="submit" class="btn btn-info btn-block pricebtn">我要報名</button>
+            <button type="submit" class="btn btn-outline-info btn-block pricebtn">評論</button>
+            <?php
+            }
+            ?>
           </form>
-        <?php } ?>
-        <form> 
-          <button type="button" class="btn btn-outline-danger collectbtn">
-            <i class="far fa-heart"></i>
-            收藏課程
-          </button>
-        </form>
+        </div>
       </div>
     </div>
-  </div>
-
-  <div class="footer">
-    <img src="pic/about/4.png" class="img-fluid" alt="Responsive image">
-  </div>
 
   
-  
-
   <script>
   function openNav() {
     document.getElementById("mySidenav").style.width = "250px";
@@ -334,8 +337,17 @@
   }
   </script>
 
+  
+
+  <!--script-->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+
+  <script src='//static.codepen.io/assets/common/stopExecutionOnTimeout-41c52890748cd7143004e05d3c5f786c66b19939c4500ce446314d1748483e13.js'></script><script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script><script src='//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js'></script>
+
   <script type="text/javascript">
-    $(document).ready(function(){
+$(document).ready(function(){
   $(".editor-header a").click(function(e){
     e.preventDefault();
 
@@ -384,12 +396,6 @@ $(document).ready(function(){
   });
 });
   </script>
-
-
-  <!--script-->
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
 </body>
 
 </html>

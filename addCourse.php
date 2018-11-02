@@ -12,42 +12,52 @@
 </head>
 
 <body class="enroll">
-  <nav class="navbar navbar-light bg-light header">
-    <a class="navbar-brand float-left" href="#">
+  <nav class="navbar navbar-expand-xl navbar-light header-font">
+    <a href="index.php" class="navbar-brand float-left">
       <img src="http://140.131.114.155/playgroup/pic/title.png" class="header-logo">
     </a>
   </nav>
+
   <div class="enroll">
     <div class="container-fluid outside">
       <div id="tr_space"></div>
       <p class="title-font">開一門好課</p>
-      <div class="border border-secondary rounded inside">
-        <form action="#" method="post" name="add" class="needs-validation" novalidate> 
-          <div style="margin-bottom:1vw; margin-top:3vw;">課程資料</div>
-          <div class="border border-muted rounded" style="padding:2vw;">
+      
+      <div class="rounded inside">
+        <form action="post.php" method="post" name="add" class="add" enctype="multipart/form-data">
+
+            <?php $uid = base64_decode($_GET['refer']); ?> 
+            <input type="hidden" name="uid" value="<?php echo $uid; ?>">
 
             <div class="form-group">
               <label for="cName">課程名稱</label>
               <input type="text" class="form-control" name="cName" placeholder="請輸入課程名稱" required>
-              <div class="invalid-feedback">請務必填寫</div>
             </div>
 
             <div class="form-group">
-              <label for="teaDesc">課程介紹</label>
+              <label for="price">價格</label>
+              <input type="number" class="form-control" name="price" placeholder="請輸入價格" required>
+            </div>
+
+            <div class="form-group">
+              <label for="cDesc">課程介紹</label>
               <textarea class="form-control" name="cDesc" rows="5" placeholder="請輸入課程介紹" required></textarea>
-              <div class="invalid-feedback">請務必填寫</div>
             </div>
 
             <div class="form-group">
-              <label for="teaDesc">師資介紹</label>
-              <textarea class="form-control" name="cDesc" rows="5" placeholder="請輸入師資介紹" required></textarea>
-              <div class="invalid-feedback">請務必填寫</div>
+              <label for="tName">教師</label>
+              <input type="text" class="form-control" name="tName" placeholder="請輸入教師姓名">
+            </div>
+
+            <div class="form-group">
+              <label for="tCellphone">教師連絡電話</label>
+              <input type="text" class="form-control" name="tCellphone" placeholder="請輸入教師姓名">
             </div>
 
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="agelower">適讀年齡</label>
-                <select name="agelower" class="form-control">
+                <select name="agelower" class="form-control" required>
                   <option selected>最小年齡...</option>
                   <option>0.5</option><option>1.0</option>
                   <option>1.5</option><option>2</option>
@@ -56,47 +66,69 @@
                   <option>7</option><option>8</option>
                   <option>9</option><option>10</option>
                   <option>11</option><option>12</option>
-                  <div class="invalid-feedback">請務必填寫</div>
                 </select>
               </div>
               <div class="form-group col-md-6">
                 <label for="ageupper">&nbsp;</label>
-                <select name="ageupper" class="form-control">
+                <select name="ageupper" class="form-control" onchange="checkage()"required>
                   <option selected>最大年齡...</option>
-                  <option>0.5</option><option>1.0</option>
-                  <option>1.5</option><option>2</option>
+                  <option>0</option><option>1</option>
+                  <option>2</option>
                   <option>3</option><option>4</option>
                   <option>5</option><option>6</option>
                   <option>7</option><option>8</option>
                   <option>9</option><option>10</option>
                   <option>11</option><option>12</option>
                 </select>
-                <div class="invalid-feedback">請務必填寫</div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="city">上課地點</label>
+                <input type="text" class="form-control" name="city" placeholder="縣市" required>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="district">&nbsp;</label>
+                <input type="text" class="form-control" name="district" placeholder="鄉鎮市區" required>
+              </div>
+              <div class="form-group col-md-12">
+                <label for="address">&nbsp;</label>
+                <input type="text" class="form-control" name="address" placeholder="街道路名" required>
               </div>
             </div>
             
-            <div class="form-group">
-              <label for="cAddress">地點</label>
-              <input type="text" class="form-control" name="cName" placeholder="請輸入上課地點" required>
-              <div class="invalid-feedback">請務必填寫</div>
-            </div>
 
-            <div class="form-group">
-              <label for="cTime">上課時間</label>
-              <select class="form-control" name="cTime" required="">
-                <option selected>請選擇時間...</option>
-              </select>
-              <div class="invalid-feedback">請務必填寫</div>
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                <label for="cDate">上課場次</label>
+                <input type="date" class="form-control" name="cDate" placeholder="上課日期" required>
+              </div>
+              <div class="form-group col-md-4">
+                <label for="sTime">上課時間</label>
+                <input type="time" class="form-control" name="sTime" required>
+              </div>
+              <div class="form-group col-md-4">
+                <label for="etime">下課時間</label>
+                <input type="time" class="form-control" name="eTime" required>
+              </div>
             </div>
 
             <div class="form-group">
               <label for="cTotal">人數</label>
-              <select class="form-control" name="cTotal" required>
-                <option selected="">請選擇人數上限...</option>
-              </select>
-              <div class="invalid-feedback">請務必填寫</div>
+              <input type="number" class="form-control" name="price" placeholder="請輸入人數上限" required>
             </div>
-          </div>
+
+            <div class="form-group">
+              <label for="due">報名期限</label>
+              <input type="date" class="form-control" name="due" required>
+            </div>
+              
+            <div class="form-group">
+              <label for="image">上傳圖片</label>
+              <input type="file" id="file" name="image" onchange="openFile(event)" multiple>
+              <div id="result"></div>
+            </div>
          
           <div class="confirm">
             <a href="index.php" class="btn btn-outline-secondary" role="button" aria-pressed="true">取消</a>
@@ -108,27 +140,34 @@
   </div>
 
   <script>
-      // Example starter JavaScript for disabling form submissions if there are invalid fields
-      (function() {
-        'use strict';
+  function openFile(event){
+    var result=document.getElementById("result"); 
+    var input = event.target; //取得上傳檔案
 
-        window.addEventListener('load', function() {
-          // Fetch all the forms we want to apply custom Bootstrap validation styles to
-          var forms = document.getElementsByClassName('needs-validation');
-
-          // Loop over them and prevent submission
-          var validation = Array.prototype.filter.call(forms, function(form) {
-            form.addEventListener('submit', function(event) {
-              if (form.checkValidity() === false) {
-                event.preventDefault();
-                event.stopPropagation();
-              }
-              form.classList.add('was-validated');
-            }, false);
-          });
-        }, false);
-      })();
+    for(i = 0; i< input.files.length; i ++) {
+        var reader = new FileReader();  //建立FileReader物件  
+        reader.readAsDataURL(input.files[i]); //以.readAsDataURL將上傳檔案轉換為base64字串 
+        reader.onload=function(e){
+          result.innerHTML = result.innerHTML + '<img src="' + this.result +'" class="img" alt="" />';  
+        }
+    }
+  }
   </script>
+
+  <script>
+  function checkage(){
+    var p1=document.form1.pwd1.value;
+    var p2=document.form1.pwd2.value;
+
+    if(p1!=p2){
+      alert("兩次密碼不相符，請重新輸入");
+      document.form1.pwd1.focus();
+      return false;
+    }
+  }
+  </script>
+
+  
   
   <!--script-->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js " integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo " crossorigin="anonymous "></script>

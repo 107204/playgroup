@@ -1,3 +1,7 @@
+.rounded-circle .img-fluid{
+  height: 50px;
+}
+
 .sidenav {
     height: 100%;
     width: 0;

@@ -15,14 +15,17 @@
 <body>
   <?php
   require 'config.php';
+  if((!isset($_POST['city'])) && (!isset($_POST['lower'])) && (!isset($_POST['higher'])) && (!isset($_POST['cate']))){
+    header('Location: index.php');
 
-  $old_url = $_SERVER["REQUEST_URI"];
-  $check = strpos($old_url, '?');
-  if($check !== false){
-    $refer = base64_decode($_GET['refer']);
-    if($refer== 'nolog'){ ?>
-      
-      <nav class="navbar navbar-expand-xl navbar-light header-font">
+  }else{
+    $old_url = $_SERVER["REQUEST_URI"];
+    $check = strpos($old_url, '?');
+    if($check !== false){
+      $refer=base64_decode($_GET['refer']);
+      if($refer== 'nolog'){ ?>
+              
+        <nav class="navbar navbar-expand-xl navbar-light header-font">
         <a class="navbar-brand float-left" href="index.php">
           <img src="http://140.131.114.155/playgroup/pic/title.png" class="header-logo">
         </a>
@@ -152,97 +155,155 @@
           </ul>
         </div>
       </nav>
+                  
+    <?php 
+      } 
+    }else{
+      require 'insession.php';
+    } ?>
 
-      <div class="fixed-bottom" id="fab">
-        <a href="addCourse.php?refer=<?php echo $uid; ?>" role="button" class="btn btn-lg rounded-circle floating-action" data-toggle="tooltip" data-placement="top" title="新增課程">
-          <span class="fas fa-plus text-white" />
-        </a>
-      </div>
-                
-  <?php 
-    } 
-  }else{
-    require 'insession.php';
-  }  ?>
+    <div id="tr_space"></div>
+    <?php
+    require 'config.php';
+  
+    $old_url = $_SERVER["REQUEST_URI"];
+    $check = strpos($old_url, '?');
+    if($check !== false){
 
+      $refer=$_GET['refer'];
 
-  <!--Carousel-->
-  <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-    <ol class="carousel-indicators" id="cindicators">
-      <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-      <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-    </ol>
-    <div class="carousel-inner">
-      <div class="carousel-item active">
-        <img class="d-block w-100 headerPic" src="pic/index/a.png" alt="First slide">
-      </div>
-      <div class="carousel-item">
-        <img class="d-block w-100 headerPic" src="pic/index/b.png" alt="Second slide">
-      </div>
-      <div class="carousel-item">
-        <img class="d-block w-100 headerPic" src="pic/index/c.png" alt="Third slide">
-      </div>
-    </div>
-    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="sr-only">Previous</span>
-    </a>
-    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="sr-only">Next</span>
-    </a>
-  </div>
- 
-  <div id="tr_space"></div>
+      if(!empty($_POST['city']) && empty($_POST['cate']) && empty($_POST['lower']) && empty($_POST['higher'])){
+        $city = $_POST['city'];
+        $sql = "SELECT courseNo, course, city, district, price, coursePic FROM course WHERE city = '$city'";
+        $stmt = sqlsrv_query( $conn, $sql, array(), array( "Scrollable" => 'static' ));
+        $row_count = sqlsrv_num_rows( $stmt ); 
 
-  <h2>目前好課</h2>
+      } elseif (!empty($_POST['cate']) && empty($_POST['city']) && empty($_POST['higher'])){
+        $gcate = $_POST['cate'];
+        $cc = count($gcate);
+        $cate = '';
+        if($cc = 1){
+          $cate = "('".$gcate[0]."')";
+        }else{
+          for($i = 0; $i < $cc; $i++){
+            if($i = 0){
+              $cate = "('".$gcate[$i]."',";
+            }elseif($i = $cc-1){
+              $cate = $cate."'".$gcate[$i]."')"; 
+            }else{
+              $cate = $cate."'".$gcate[$i]."',";
+            }
+          }
+        }
 
-  <div id="tr_space"></div>
+        $sql = "SELECT course.courseNo, course, city, district, price, coursePic FROM (course INNER JOIN courseCate ON
+        		course.courseNo = courseCate.courseNo) INNER JOIN category ON courseCate.cateNo = category.cateNo
+        		WHERE cateName IN $cate";
+        $stmt = sqlsrv_query( $conn, $sql, array(), array( "Scrollable" => 'static' ));
+        $row_count = sqlsrv_num_rows( $stmt );
 
-  <div class="container-fluid">
-    <div class="card-deck">
-      <?php
-      require 'config.php';
+      } elseif (!empty($_POST['higher']) && empty($_POST['cate']) && empty($_POST['lower']) && empty($_POST['higher'])){
 
-      $old_url = $_SERVER["REQUEST_URI"];
-      $check = strpos($old_url, '?');
-      if($check !== false){
+        $higher = (int)$_POST['higher'];
+        $sql = "SELECT courseNo, course, city, district, price, coursePic FROM course WHERE price <= $higher";
+        $stmt = sqlsrv_query( $conn, $sql, array(), array( "Scrollable" => 'static' ));
+        $row_count = sqlsrv_num_rows( $stmt ); 
 
-        $refer=$_GET['refer'];
+      } elseif (!empty($_POST['lower']) && empty($_POST['cate']) && empty($_POST['city']) && empty($_POST['higher'])){
+        $lower = (int)$_POST['lower'];
+        $sql = "SELECT courseNo, course, city, district, price, coursePic FROM course WHERE price >= $lower";
+        $stmt = sqlsrv_query( $conn, $sql, array(), array( "Scrollable" => 'static' ));
+        $row_count = sqlsrv_num_rows( $stmt ); 
 
-        $sql = "SELECT course.courseNo, course, city, district, price, coursePic FROM course";
-        $stmt = sqlsrv_query( $conn, $sql );
-        while($row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_NUMERIC)){ ?>
+      } elseif (!empty($_POST['city']) && !empty($_POST['cate']) && !empty($_POST['lower'])){
+         $city = $_POST['city'];
+         $lower = (int)$_POST['lower'];
+         $gcate = $_POST['cate'];
+        $cc = count($gcate);
+        $cate = '';
+        if($cc = 1){
+          $cate = "('".$gcate[0]."')";
+        }else{
+          for($i = 0; $i < $cc; $i++){
+            if($i = 0){
+              $cate = "('".$gcate[$i]."',";
+            }elseif($i = $cc-1){
+              $cate = $cate."'".$gcate[$i]."')"; 
+            }else{
+              $cate = $cate."'".$gcate[$i]."',";
+            }
+          }
+        }
 
-        <div class="col-xs-12 col-md-6 col-lg-3 courseitem">
-          <a href="course.php?refer=<?php echo $refer; ?>&cNo=<?php echo $row[0]; ?>">
-            <div class="card">
-              <img class="card-img-top" src="<?php echo $row[5]; ?>" alt="Card image cap">
-              <div class="card-body">
-                <h3><?php echo $row[1]; ?></h3>
-                <div id="DIV1">
-                  <i class="fas fa-map-marker-alt" width="18" height="18" style="color: #33D4C6;"></i>
-                </div>
-                <p id="city"><?php echo $row[2]; ?>&nbsp;<?php echo $row[3]; ?></p>
-                <p align=right>
-                  <span id="twd">TWD</span> 
-                  <span id="price"><?php echo $row[4]; ?></span>
-                </p>
-              </div>
-            </div>
-          </a>
+        $sql = "SELECT course.courseNo, course, city, district, price, coursePic FROM (course INNER JOIN courseCate 
+                ON course.courseNo = courseCate.courseNo) INNER JOIN category ON courseCate.cateNo = category.cateNo
+                WHERE price >= $lower AND city = '$city' AND cateName IN $cate";
+        $stmt = sqlsrv_query( $conn, $sql, array(), array( "Scrollable" => 'static' ));
+        $row_count = sqlsrv_num_rows( $stmt ); 
+
+      } elseif (!empty($_POST['city']) && !empty($_POST['cate'])){
+         $city = $_POST['city'];
+         $gcate = $_POST['cate'];
+        $cc = count($gcate);
+        $cate = '';
+        if($cc = 1){
+          $cate = "('".$gcate[0]."')";
+        }else{
+          for($i = 0; $i < $cc; $i++){
+            if($i = 0){
+              $cate = "('".$gcate[$i]."',";
+            }elseif($i = $cc-1){
+              $cate = $cate."'".$gcate[$i]."')"; 
+            }else{
+              $cate = $cate."'".$gcate[$i]."',";
+            }
+          }
+        }
+
+        $sql = "SELECT course.courseNo, course, city, district, price, coursePic FROM (course INNER JOIN courseCate 
+                ON course.courseNo = courseCate.courseNo) INNER JOIN category ON courseCate.cateNo = category.cateNo
+                WHERE city = '$city' AND cateName IN $cate";
+        $stmt = sqlsrv_query( $conn, $sql, array(), array( "Scrollable" => 'static' ));
+        $row_count = sqlsrv_num_rows( $stmt ); 
+      } ?>
+
+	 <div class="result">
+          共有 <?php echo $row_count; ?> 筆結果
         </div>
-     <?php }
-        } ?>
-    </div>
-  </div>
+
+        <div id="tr_space"></div>
+  
+        <div class="container-fluid">
+          <div class="card-deck">
+
+          <?php while($row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_NUMERIC)){ ?>
+          <div class="col-xs-12 col-md-6 col-lg-3 courseitem">
+            <a href="course.php?refer=<?php echo $refer; ?>&cNo=<?php echo $row[0]; ?>">
+              <div class="card">
+                <img class="card-img-top" src="<?php echo $row[5]; ?>" alt="Card image cap">
+                <div class="card-body">
+                  <h3><?php echo $row[1]; ?></h3>
+                  <div id="DIV1">
+                    <i class="fas fa-map-marker-alt" width="18" height="18" style="color: #33D4C6;"></i>
+                  </div>
+                  <p id="city"><?php echo $row[2]; ?> &nbsp; <?php echo $row[3]; ?></p>
+                  <p align=right>
+                    <span id="twd">TWD</span> 
+                    <span id="price"><?php echo $row[4]; ?></span>
+                  </p>
+                </div>
+              </div>
+            </a>
+          </div>
+          <?php } ?>
+        </div>
+      </div>
+    <?php 	
+    } 
+  } ?>
+
   
   <div id="tr_space"></div>
-
-  <div class="footer">
-    <img src="pic/about/4.png" class="img-fluid" alt="Responsive image">
-  </div>
 
   <!-- Modal -->
   <div class="modal fade" id="filter" tabindex="-1" role="dialog" aria-labelledby="filterlLabel" aria-hidden="true">
@@ -403,7 +464,9 @@
     </div>
   </div>
 
-
+  <div class="footer">
+    <img src="pic/about/4.png" class="img-fluid" alt="Responsive image">
+  </div>
 
   <script>
   function openNav() {
@@ -418,7 +481,12 @@
     document.getElementById("cindicators").style.visibility = "visible";
   }
   </script>
-`
+
+  <script>
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   <!--script-->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

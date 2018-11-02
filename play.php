@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
-  <link rel="stylesheet" type="text/css" href="css/index.css">
+  <link rel="stylesheet" type="text/css" href="css/play.css">
   <link rel="stylesheet" type="text/css" href="css/sidenav.css">
   <title>Playgroup</title>
 </head>
@@ -19,9 +19,9 @@
   $old_url = $_SERVER["REQUEST_URI"];
   $check = strpos($old_url, '?');
   if($check !== false){
-    $refer = base64_decode($_GET['refer']);
+    $refer=base64_decode($_GET['refer']);
     if($refer== 'nolog'){ ?>
-      
+            
       <nav class="navbar navbar-expand-xl navbar-light header-font">
         <a class="navbar-brand float-left" href="index.php">
           <img src="http://140.131.114.155/playgroup/pic/title.png" class="header-logo">
@@ -153,92 +153,85 @@
         </div>
       </nav>
 
-      <div class="fixed-bottom" id="fab">
-        <a href="addCourse.php?refer=<?php echo $uid; ?>" role="button" class="btn btn-lg rounded-circle floating-action" data-toggle="tooltip" data-placement="top" title="新增課程">
-          <span class="fas fa-plus text-white" />
-        </a>
-      </div>
-                
   <?php 
     } 
   }else{
     require 'insession.php';
-  }  ?>
+  } ?>
 
+  
+  <img src="pic/about/5.png" class="img-fluid" alt="Responsive image">
+  <img src="pic/about/6.png" class="img-fluid" alt="Responsive image">
 
-  <!--Carousel-->
-  <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-    <ol class="carousel-indicators" id="cindicators">
-      <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-      <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-    </ol>
-    <div class="carousel-inner">
-      <div class="carousel-item active">
-        <img class="d-block w-100 headerPic" src="pic/index/a.png" alt="First slide">
-      </div>
-      <div class="carousel-item">
-        <img class="d-block w-100 headerPic" src="pic/index/b.png" alt="Second slide">
-      </div>
-      <div class="carousel-item">
-        <img class="d-block w-100 headerPic" src="pic/index/c.png" alt="Third slide">
+  <div class="container-fluid">
+    <div class="card-deck">
+  	  <div class="col-xs-12 col-md-6 col-lg-3 courseitem">
+        <a href="course.php?refer=<?php echo $refer; ?>">
+          <div class="card">
+            <img class="card-img-top" src="pic/index/a.png" alt="Card image cap">
+            <div class="card-body">
+              <h3>親子共學定期聚會</h3>
+              <div id="DIV1">
+                <i class="fas fa-map-marker-alt" width="18" height="18" style="color: #33D4C6;"></i>
+              </div>
+              <p id="city">新北市&nbsp;大安區</p>
+            </div>
+          </div>
+        </a>
       </div>
     </div>
-    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="sr-only">Previous</span>
-    </a>
-    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="sr-only">Next</span>
-    </a>
   </div>
- 
+
   <div id="tr_space"></div>
 
-  <h2>目前好課</h2>
+  <h2>親子共學活動與資訊</h2>
 
   <div id="tr_space"></div>
 
   <div class="container-fluid">
     <div class="card-deck">
-      <?php
-      require 'config.php';
-
-      $old_url = $_SERVER["REQUEST_URI"];
-      $check = strpos($old_url, '?');
-      if($check !== false){
-
-        $refer=$_GET['refer'];
-
-        $sql = "SELECT course.courseNo, course, city, district, price, coursePic FROM course";
-        $stmt = sqlsrv_query( $conn, $sql );
-        while($row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_NUMERIC)){ ?>
-
-        <div class="col-xs-12 col-md-6 col-lg-3 courseitem">
-          <a href="course.php?refer=<?php echo $refer; ?>&cNo=<?php echo $row[0]; ?>">
-            <div class="card">
-              <img class="card-img-top" src="<?php echo $row[5]; ?>" alt="Card image cap">
-              <div class="card-body">
-                <h3><?php echo $row[1]; ?></h3>
-                <div id="DIV1">
-                  <i class="fas fa-map-marker-alt" width="18" height="18" style="color: #33D4C6;"></i>
-                </div>
-                <p id="city"><?php echo $row[2]; ?>&nbsp;<?php echo $row[3]; ?></p>
-                <p align=right>
-                  <span id="twd">TWD</span> 
-                  <span id="price"><?php echo $row[4]; ?></span>
-                </p>
-              </div>
+  	  <div class="col-xs-12 col-md-6 col-lg-3 courseitem">
+        <a href="https://www.businessweekly.com.tw/article.aspx?id=18640&type=Indep">
+          <div class="card">
+            <img class="card-img-top" src="pic/play/2.png" alt="Card image cap">
+            <div class="card-body">
+              <h3>商周-親子共學  孩子自動變好！</h3>
             </div>
-          </a>
-        </div>
-     <?php }
-        } ?>
+          </div>
+        </a>
+      </div>
+      <div class="col-xs-12 col-md-6 col-lg-3 courseitem">
+        <a href="https://udn.com/news/story/6966/3244093">
+          <div class="card">
+            <img class="card-img-top" src="pic/play/1.png" alt="Card image cap">
+            <div class="card-body">
+              <h3>親子共學 豐富一夏</h3>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="col-xs-12 col-md-6 col-lg-3 courseitem">
+        <a href="http://www.yicfff.tw">
+          <div class="card">
+            <img class="card-img-top" src="pic/play/4.png" alt="Card image cap">
+            <div class="card-body">
+              <h3>宜蘭童玩節 - 童心大進擊</h3>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="col-xs-12 col-md-6 col-lg-3 courseitem">
+        <a href="https://gfamily.cwgv.com.tw/content/index/1612">
+          <div class="card">
+            <img class="card-img-top" src="pic/play/3.png" alt="Card image cap">
+            <div class="card-body">
+              <h3>未來 - 實驗教育</h3>
+            </div>
+          </div>
+        </a>
+      </div>
     </div>
   </div>
-  
-  <div id="tr_space"></div>
 
   <div class="footer">
     <img src="pic/about/4.png" class="img-fluid" alt="Responsive image">
@@ -418,7 +411,6 @@
     document.getElementById("cindicators").style.visibility = "visible";
   }
   </script>
-`
 
   <!--script-->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="css/course.css">
+  <link rel="stylesheet" type="text/css" href="css/sidenav.css">
+  <title>Playgroup</title>
+</head>
+
+<body>
+  <style>
+  .img {
+    max-width: 150px; 
+    max-height: 150px;
+    margin: 5px;
+}
+  </style>
+
+  <form action="post.php" method="POST" enctype="multipart/form-data">
+    <input type="file" id="file" name="image[]" onchange="openFile(event)" accept="image/png, image/jpeg, image/gif, image/jpg" multiple>
+    <div id="result">
+    </div>
+  </form>
+
+  <script>
+  function openFile(event){
+    var result=document.getElementById("result"); 
+    var input = event.target; //取得上傳檔案
+
+    $(result).empty();
+    for(i = 0; i< input.files.length; i ++) {
+        var reader = new FileReader();  //建立FileReader物件  
+        reader.readAsDataURL(input.files[i]); //以.readAsDataURL將上傳檔案轉換為base64字串 
+        reader.onload=function(e){
+          result.innerHTML = result.innerHTML + '<img src="' + this.result +'" class="img" alt="" />';  
+        }
+    }
+  }
+  </script>
+
+
+  <!--script-->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+</body>
+
+</html>

@@ -14,12 +14,11 @@ if($pos=='1'){
 
   for($x=0; $x < $total; $x++){
     $kidName=$_POST['kidName'.$x];
-    $age=$_POST['kidAge'.$x];
+    $kidBirth=$_POST['kidBirth'.$x];
     $kidGen=$_POST['kidGen'.$x];
-    $kidAge=(float)$age;
 
-    $sql2 = "INSERT INTO kid(kidName, kidAge, kidGen, userNo) 
-             VALUES('$kidName', '$kidAge', '$kidGen', '$userNo');";
+    $sql2 = "INSERT INTO kid(kidName, kidBirth, kidGen, userNo) 
+             VALUES('$kidName', '$kidBirth', '$kidGen', '$userNo');";
     $params2 = array(1, "some data");
     $stmt2 = sqlsrv_query( $conn, $sql2, $params2);
   }
@@ -38,12 +37,11 @@ if($pos=='1'){
   
   for($x=0; $x < $total; $x++){
     $kidName=$_POST['kidName'.$x];
-    $age=$_POST['kidAge'.$x];
+    $kidBirth=$_POST['kidBirth'.$x];
     $kidGen=$_POST['kidGen'.$x];
-    $kidAge=(float)$age;
 
-    $sql2 = "INSERT INTO kid(kidName, kidAge, kidGen, userNo) 
-             VALUES('$kidName', '$kidAge', '$kidGen', '$userNo');";
+    $sql2 = "INSERT INTO kid(kidName, kidBirth, kidGen, userNo) 
+             VALUES('$kidName', '$kidBirth', '$kidGen', '$userNo');";
     $params2 = array(1, "some data");
     $stmt2 = sqlsrv_query( $conn, $sql2, $params2);
   }

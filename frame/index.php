@@ -76,7 +76,7 @@
 
     <?php 
     }elseif($refer != 'nolog'){ 
-      $sql = "SELECT cookie, userPic FROM account WHERE cookie = '$refer'";
+      $sql = "SELECT cookie FROM account WHERE cookie = '$refer'";
       $stmt = sqlsrv_query( $conn, $sql );
       $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_NUMERIC); 
       $user = urlencode($row[0]); 
@@ -86,7 +86,10 @@
           <img src="http://140.131.114.155/playgroup/pic/title.png" class="header-logo">
         </a>
         <a role="button" class="rounded-circle" data-toggle="collapse" data-target="#collapsibleNavbar" onclick="openNav()">
-          <img src="<?php echo $row[1]; ?>" class="img-fluid">
+          <span class="fa-stack fa-lg">
+            <i class="far fa-circle fa-stack-2x"></i>
+            <i class="fas fa-user fa-stack-1x"></i>
+          </span>
         </a>
         <div id="mySidenav" class="sidenav">
           <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>

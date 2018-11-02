@@ -5,16 +5,17 @@ $number = $_POST['number'];
 $pwd = $_POST['pwd'];
 $refer = $_POST['refer'];
 $en_pwd = md5($pwd);
+$nolog = base64_encode('nolog');
 
 
 if ($number == '' || $pwd == ''){
     // No login information
-    header('Location: login.php?refer='. urlencode(md5('noinfo')));
+    header('Location: login.php?refer='. base64_encode('noinfo'));
 }else{
     $sql = "SELECT userNo, DATEDIFF(SECOND,'1970-01-01',GETUTCDATE()) + userNo + 
     ROUND(DATEDIFF(SECOND,'1970-01-01',GETUTCDATE())*RAND(), 0) FROM account WHERE cellphone='$number' AND pwd='$en_pwd'";
     $stmt = sqlsrv_query( $conn, $sql )
-            or die(header('Location: login.php?refer='. urlencode(md5('nologin'))));
+            or die(header('Location: login.php?refer='.$nolog));
 
     if(sqlsrv_has_rows($stmt)){
         $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_NUMERIC);
@@ -35,10 +36,10 @@ if ($number == '' || $pwd == ''){
             $refer = 'index.php';
         }
 
-        header('Location: index.php?refer='. urlencode(md5('login')));
+        header('Location: index.php?refer='. base64_encode($row[1]));
     }else{
         // Not authenticated
-        header('Location: login.php?refer='. urlencode(md5('nologin')));
+        header('Location: login.php?refer='.$nolog);
     }
 }
 ?>

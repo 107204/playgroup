@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="css/course.css">
+  <link rel="stylesheet" type="text/css" href="css/sidenav.css">
+  <title>Playgroup</title>
+</head>
+
+<body>
+  <style>
+  .imageDiv{
+              display: inline-block;
+              width: 140px;
+              height: 125px;
+              -webkit-box-sizing: border-box;
+              -moz-box-sizing: border-box;
+              box-sizing: border-box;
+              border: 1px dashed darkgray;
+              background: #f8f8f8;
+             position: relative;
+             overflow: hidden;
+         }
+         .cover{
+             position: absolute;
+             z-index: 1;
+             top: 0;
+             left: 0;
+             width: 140px;
+             height: 125px;
+             background-color: rgba(0,0,0,.3);
+             display: none;
+             line-height: 125px;
+             text-align: center;
+             cursor: pointer;
+         }
+         .cover>.delbtn{
+             color: red;
+             font-size: 20px;
+ 
+         }
+         .imageDiv:hover .cover{
+             display: block;
+         }
+         .addImages{
+             display: inline-block;
+             width: 140px;
+             height: 125px;
+             -webkit-box-sizing: border-box;
+             -moz-box-sizing: border-box;
+             box-sizing: border-box;
+             border: 1px dashed darkgray;
+             background: #f8f8f8;
+             position: relative;
+             overflow: hidden;
+         }
+         .text-detail{
+             margin-top: 40px;
+             text-align: center;
+         }
+         .text-detail>span{
+             font-size: 40px;
+         }
+         .file{
+             position: absolute;
+             top: 0;
+             left: 0;
+             width: 140px;
+             height: 125px;
+             opacity: 0;
+         }
+
+  </style>
+
+  <div class="picDiv">
+      <div class="addImages">
+          <!--multiple屬性可選擇多個圖片上傳-->
+          <input type="file" class="file" id="fileInput" multiple accept="image/png, image/jpeg, image/gif, image/jpg" />
+         <div class="text-detail">
+             <span>+</span>
+              <p>點擊上傳</p>
+          </div>
+     </div>
+ </div>
+
+  <script>
+  var userAgent = navigator.userAgent;//用於判斷瀏覽器類型
+      $(".file").change(function () {
+          //獲取選擇圖片的對象
+          var docObj =$(this)[0];
+          var picDiv=$(this).parents(".picDiv");
+          //得到所有的圖片文檔
+          var fileList = docObj.files;
+         //循環遍歷
+         for (var i = 0; i < fileList.length; i++) {
+             //動態添加html元素
+             var picHtml="<div class='imageDiv' > <img id='img" + fileList[i].name + "'  /> <div class='cover'><i class='delbtn'>刪除</i></div></div>"
+             picDiv.prepend(picHtml);
+             //獲取圖片imgi的對象
+             var imgObjPreview = document.getElementById("img"+fileList[i].name);
+             if (fileList && fileList[i]) {
+                 //圖片屬性
+                 imgObjPreview.style.display = 'block';
+                 imgObjPreview.style.width = '140px';
+                 imgObjPreview.style.height = '125px';
+                 //imgObjPreview.src = docObj.files[0].getAsDataURL();
+                 //火狐7以上版本不能用上面的getAsDataURL()方式獲取，需要以下方式
+                 if(userAgent.indexOf('MSIE') == -1){//IE以外瀏覽器
+                     imgObjPreview.src = window.URL.createObjectURL(docObj.files[i]);   //獲取上傳圖片文檔的物理路徑
+                 }else{//IE瀏覽器
+                     if(docObj.value.indexOf(",")!=-1){
+                         var srcArr=docObj.value.split(",");
+                         imgObjPreview.src = srcArr[i];
+                     }else{
+                         imgObjPreview.src = docObj.value;
+                     }
+                 }
+             }
+         }
+     });
+     /*刪除功能*/
+     $(document).on("click",".delbtn",function () {
+         console.log("click")
+         var _this=$(this);
+         _this.parents(".imageDiv").remove();
+     });
+
+  </script>
+
+
+  <!--script-->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+</body>
+
+</html>
