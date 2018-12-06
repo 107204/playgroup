@@ -2,7 +2,21 @@
 /**
 *    Credit信用卡付款產生訂單範例
 */
-    require_once 'enrollFinish.php';
+    include 'config.php';
+    $orderNo = $_POST['MerchantTradeNo'];
+    $NEWorderNo =  $_POST['MerchantTradeNo'];
+    $sqla = "SELECT orderNo,courseNo,cellphone FROM enroll WHERE orderNo = '$orderNo'";
+    $stmta = sqlsrv_query( $conn, $sqla );
+    $rowa = sqlsrv_fetch_array( $stmta, SQLSRV_FETCH_NUMERIC);
+    if(sqlsrv_has_rows($stmta)){
+        $NEWorderNo = (int)$orderNo + time();
+        $sql = "UPDATE enroll SET orderNo = '$NEWorderNo' WHERE courseNo = $rowa[1] AND cellphone = '$rowa[2]'";
+        $params = array(1, "some data");
+        $stmt = sqlsrv_query( $conn, $sql, $params);
+    }else{
+        require_once 'enrollFinish.php';
+        $NEWorderNo = $orderNo;
+    }
     //載入SDK(路徑可依系統規劃自行調整)
     include('ECPay.Payment.Integration.php');
     try {
@@ -17,9 +31,9 @@
         $obj->EncryptType = '1';                                                           //CheckMacValue加密類型，請固定填入1，使用SHA256加密
         //基本參數(請依系統規劃自行調整)
         $MerchantTradeNo = "Test".time() ;
-        $obj->Send['ReturnURL']         =  $_POST['ReturnURL'] ;    //付款完成通知回傳的網址
-        $obj->Send['OrderResultURL']    =  $_POST['ReturnURL'] ;
-        $obj->Send['MerchantTradeNo']   = $_POST['MerchantTradeNo'];                          //訂單編號
+        $obj->Send['ReturnURL']         = $_POST['ReturnURL'] ;    //付款完成通知回傳的網址
+        $obj->Send['OrderResultURL']    = $_POST['ReturnURL'] ;
+        $obj->Send['MerchantTradeNo']   = $NEWorderNo;                          //訂單編號
         $obj->Send['MerchantTradeDate'] = date('Y/m/d H:i:s');                       //交易時間
         $obj->Send['TotalAmount']       = $_POST['TotalAmount'];                                      //交易金額
         $obj->Send['TradeDesc']         = $_POST['TradeDesc'];                         //交易描述

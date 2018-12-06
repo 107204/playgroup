@@ -178,16 +178,16 @@
           <div class="tr">
             <div class="card-deck">
             <?php
-            $sqlc = "SELECT DISTINCT course.courseNo, course, city, district, price, coursePic FROM (course 
-                     INNER JOIN (enroll INNER JOIN account ON enroll.cellphone = account.cellphone) ON 
-                     course.courseNo = enroll.courseNo) INNER JOIN courseTime ON course.courseNo = courseTime.courseNo
-                     WHERE cookie  = '$refer' AND complete = 0";
+            $sqlc = "SELECT enroll.courseNo, course, city, district, price, coursePic FROM (course INNER JOIN (enroll 
+                     INNER JOIN account ON enroll.cellphone = account.cellphone) ON course.courseNo = enroll.courseNo)
+                     INNER JOIN courseTime ON course.courseNo = courseTime.courseNo
+                     WHERE cookie = '$refer' AND complete = 0";
             $stmtc = sqlsrv_query( $conn, $sqlc );
             if(sqlsrv_has_rows($stmtc)){
               while($rowc = sqlsrv_fetch_array( $stmtc, SQLSRV_FETCH_NUMERIC)){;?>
 
                 <div class="col-xs-12 col-md-6 col-lg-6 courseitem">
-                  <a href="course.php?refer=<?php echo base64_encode($refer); ?>&cNo=<?php echo $rowc[0]; ?>">
+                  <a href="applyInfo.php?refer=<?php echo base64_encode($refer); ?>&cNo=<?php echo $rowc[0]; ?>">
                     <div class="card">
                       <img class="card-img-top" src="<?php echo $rowc[5]; ?>" alt="Card image cap">
                       <div class="card-body">
@@ -395,7 +395,7 @@
                     <input type="checkbox" name="cate[]" autocomplete="off" value="遊戲">遊戲
                   </label>
                   <label class="btn btn-outline-secondary">
-                    <input type="checkbox" name="cate[]" id="option3" autocomplete="off" value="家政">家政
+                    <input type="checkbox" name="cate[]" autocomplete="off" value="家政">家政
                   </label>
                   <label class="btn btn-outline-secondary">
                     <input type="checkbox" name="cate[]" autocomplete="off" value="聚會">聚會

@@ -42,7 +42,7 @@
                   <img src="http://140.131.114.155/playgroup/pic/title.png" class="header-logo">
                 </a>
               </nav>
-              <!-- <meta http-equiv="refresh" content="5;url=http://140.131.114.155/playgroup/index.php?refer=<?php //echo $refer; ?>" /> -->
+              <meta http-equiv="refresh" content="3;url=http://140.131.114.155/playgroup/myApply.php?refer=<?php echo $refer; ?>" />
               <div class="enroll">
                 <div class="container-fluid">
                   <div id="tr_space"></div>
@@ -52,7 +52,7 @@
                       <img src="http://140.131.114.155/playgroup/pic/logo.png" class="logo">
                       <p class="trade">交易完成</p>
                       <br>
-                      <p class="info">網頁沒有自動跳轉請點此</p>
+                      <p class="info">3秒後將自動跳轉，如果網頁沒有自動跳轉請點此</p>
                       <a href="index.php?refer=<?php echo $refer; ?>" role="button" class="btn btn-outline-danger">回首頁</a>
                     </div>
                   </div>
