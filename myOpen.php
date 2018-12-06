@@ -87,7 +87,7 @@
           <img src="http://140.131.114.155/playgroup/pic/title.png" class="header-logo">
         </a>
         <a role="button" class="rounded-circle" data-toggle="collapse" data-target="#collapsibleNavbar" onclick="openNav()">
-          <img src="<?php echo $row[1]; ?>" class="img-fluid">
+          <img src="http://140.131.114.155/playgroup/pic/Oval.png" class="img-fluid">
         </a>
         <div id="mySidenav" class="sidenav">
           <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -176,7 +176,7 @@
             <div class="card-deck">
             <?php
             $sqlc = "SELECT course.courseNo, course, city, district, price, coursePic FROM account INNER JOIN (course 
-                     INNER JOIN courseTime ON course.courseNo = courseTime.courseNo) ON account.userNo = course.userNo 
+                     INNER JOIN courseTime ON course.courseNo = courseTime.courseNo) ON account.cellphone = course.cellphone 
                      WHERE cookie = '$refer' AND complete = 0";
             $stmtc = sqlsrv_query( $conn, $sqlc );
             if(sqlsrv_has_rows($stmtc)){
@@ -219,7 +219,7 @@
           <div class="tr">
             <?php
             $sqlca = "SELECT course.courseNo, course, city, district, price, coursePic FROM account INNER JOIN (course 
-                      INNER JOIN courseTime ON course.courseNo = courseTime.courseNo) ON account.userNo = course.userNo 
+                      INNER JOIN courseTime ON course.courseNo = courseTime.courseNo) ON account.cellphone = course.cellphone 
                       WHERE cookie = '$refer' AND complete = 1";
             $stmtca = sqlsrv_query( $conn, $sqlca );
             if(sqlsrv_has_rows($stmtca)){

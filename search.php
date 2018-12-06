@@ -90,7 +90,7 @@
           <img src="http://140.131.114.155/playgroup/pic/title.png" class="header-logo">
         </a>
         <a role="button" class="rounded-circle" data-toggle="collapse" data-target="#collapsibleNavbar" onclick="openNav()">
-          <img src="<?php echo $row[1]; ?>" class="img-fluid">
+          <img src="http://140.131.114.155/playgroup/pic/Oval.png" class="img-fluid">
         </a>
         <div id="mySidenav" class="sidenav">
           <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>

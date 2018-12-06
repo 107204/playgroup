@@ -10,7 +10,7 @@ if (!isset($_COOKIE['session_id'])){
 	// Try to find a match in the database
 	$guid = $_COOKIE['session_id'];
 
-	$sql = "SELECT userNo, cookie FROM account WHERE cookie = '$guid'";
+	$sql = "SELECT cellphone, cookie FROM account WHERE cookie = '$guid'";
 	$stmt = sqlsrv_query( $conn, $sql )
 		or die(header('Location: index.php?refer='. $nolog));
 

@@ -86,7 +86,7 @@
           <img src="http://140.131.114.155/playgroup/pic/title.png" class="header-logo">
         </a>
         <a role="button" class="rounded-circle" data-toggle="collapse" data-target="#collapsibleNavbar" onclick="openNav()">
-          <img src="<?php echo $row[1]; ?>" class="img-fluid">
+          <img src="http://140.131.114.155/playgroup/pic/Oval.png" class="img-fluid">
         </a>
         <div id="mySidenav" class="sidenav">
           <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -218,6 +218,7 @@
         <div class="col-xs-12 col-md-6 col-lg-3 courseitem">
           <a href="course.php?refer=<?php echo $refer; ?>&cNo=<?php echo $row[0]; ?>">
             <div class="card">
+              
               <img class="card-img-top" src="<?php echo $row[5]; ?>" alt="Card image cap">
               <div class="card-body">
                 <h3><?php echo $row[1]; ?></h3>

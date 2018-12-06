@@ -87,7 +87,7 @@
           <img src="http://140.131.114.155/playgroup/pic/title.png" class="header-logo">
         </a>
         <a role="button" class="rounded-circle" data-toggle="collapse" data-target="#collapsibleNavbar" onclick="openNav()">
-          <img src="<?php echo $row[1]; ?>" class="img-fluid">
+          <img src="http://140.131.114.155/playgroup/pic/Oval.png" class="img-fluid">
         </a>
         <div id="mySidenav" class="sidenav">
           <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -167,7 +167,7 @@
     header('Location: login.php');
   } 
 
-  $sql = "SELECT userNo, userName, cellphone, email, userPic, pos FROM account WHERE cookie = '$refer'";
+  $sql = "SELECT cellphone, userName, cellphone, email, userPic, pos FROM account WHERE cookie = '$refer'";
   $stmt = sqlsrv_query( $conn, $sql );
   $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_NUMERIC);
   ?>
@@ -247,7 +247,7 @@
         <article>
         <?php
         $sqlk = "SELECT kidNo, kidName, kidBirth FROM account INNER JOIN kid 
-                ON account.userNo = kid.userNo WHERE account.userNo = $row[0]";
+                ON account.cellphone = kid.cellphone WHERE account.cellphone = $row[0]";
         $stmtk = sqlsrv_query( $conn, $sqlk );
         while($rowk = sqlsrv_fetch_array( $stmtk, SQLSRV_FETCH_NUMERIC)){
         ?>
@@ -330,7 +330,7 @@
               <div class="card-deck">
               <?php
               $sqlc = "SELECT course.courseNo, course, city, district, price, coursePic FROM course 
-                       INNER JOIN collection ON course.courseNo = collection.courseNo WHERE collection.userNo = $row[0]";
+                       INNER JOIN collection ON course.courseNo = collection.courseNo WHERE collection.cellphone = $row[0]";
               $stmtc = sqlsrv_query( $conn, $sqlc );
               if(sqlsrv_has_rows($stmtc)){
                 while($rowc = sqlsrv_fetch_array( $stmtc, SQLSRV_FETCH_NUMERIC)){;?>

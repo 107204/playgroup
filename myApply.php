@@ -90,7 +90,7 @@
             <i class="far fa-circle fa-stack-2x"></i>
             <i class="fas fa-user fa-stack-1x"></i>
           </span> -->
-          <img src="<?php echo $row[1]; ?>" class="img-fluid"> 
+          <img src="http://140.131.114.155/playgroup/pic/Oval.png" class="img-fluid"> 
         </a>
         <div id="mySidenav" class="sidenav">
           <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -179,7 +179,7 @@
             <div class="card-deck">
             <?php
             $sqlc = "SELECT DISTINCT course.courseNo, course, city, district, price, coursePic FROM (course 
-                     INNER JOIN (enroll INNER JOIN account ON enroll.userNo = account.userNo) ON 
+                     INNER JOIN (enroll INNER JOIN account ON enroll.cellphone = account.cellphone) ON 
                      course.courseNo = enroll.courseNo) INNER JOIN courseTime ON course.courseNo = courseTime.courseNo
                      WHERE cookie  = '$refer' AND complete = 0";
             $stmtc = sqlsrv_query( $conn, $sqlc );
@@ -224,7 +224,7 @@
             <div class="card-deck">
             <?php
             $sqlca = "SELECT DISTINCT course.courseNo, course, city, district, price, coursePic FROM (course 
-                      INNER JOIN (enroll INNER JOIN account ON enroll.userNo = account.userNo) ON 
+                      INNER JOIN (enroll INNER JOIN account ON enroll.cellphone = account.cellphone) ON 
                       course.courseNo = enroll.courseNo) INNER JOIN courseTime ON course.courseNo = courseTime.courseNo
                       WHERE cookie  = '$refer' AND complete = 1";
             $stmtca = sqlsrv_query( $conn, $sqlca );

@@ -266,7 +266,7 @@ a{
           <img src="http://140.131.114.155/playgroup/pic/title.png" class="header-logo">
         </a>
         <a role="button" class="rounded-circle" data-toggle="collapse" data-target="#collapsibleNavbar" onclick="openNav()">
-          <img src="<?php echo $row[1]; ?>" class="img-fluid">
+          <img src="http://140.131.114.155/playgroup/pic/Oval.png" class="img-fluid">
         </a>
         <div id="mySidenav" class="sidenav">
           <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -346,7 +346,7 @@ a{
       
     $sql = "SELECT course.courseNo, course, city, district, address, agelower, ageupper, courseDesc, 
             price, dueday, userName, teacher.teaName, teaDesc, coursePic FROM account INNER JOIN (course INNER JOIN teacher 
-            ON course.teaNo = teacher.teaNo) ON account.userNo = course.userNo WHERE course.courseNo = '".$cNo."'";
+            ON course.teaNo = teacher.teaNo) ON account.cellphone = course.cellphone WHERE course.courseNo = '".$cNo."'";
     $stmt = sqlsrv_query( $conn, $sql );
     $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_NUMERIC);
   ?>

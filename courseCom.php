@@ -86,7 +86,7 @@
           <img src="http://140.131.114.155/playgroup/pic/title.png" class="header-logo">
         </a>
         <a role="button" class="rounded-circle" data-toggle="collapse" data-target="#collapsibleNavbar" onclick="openNav()">
-          <img src="<?php echo $row[1]; ?>" class="img-fluid">
+          <img src="http://140.131.114.155/playgroup/pic/Oval.png" class="img-fluid">
         </a>
         <div id="mySidenav" class="sidenav">
           <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -166,7 +166,7 @@
       
       $sql = "SELECT course.courseNo, course, city, district, address, agelower, ageupper, courseDesc, 
               price, dueday, coursePic, userName, teacher.teaName, teaDesc FROM account INNER JOIN (course INNER JOIN 
-              teacher ON course.teaNo = teacher.teaNo) ON account.userNo = course.userNo WHERE course.courseNo = $cNo";
+              teacher ON course.teaNo = teacher.teaNo) ON account.cellphone = course.cellphone WHERE course.courseNo = $cNo";
       $stmt = sqlsrv_query( $conn, $sql );
       $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_NUMERIC);
     ?>
@@ -263,7 +263,7 @@
            $cNo=$_GET['cNo'];
            $refer=base64_decode($_GET['refer']);
       
-            $sqlc = "SELECT score, comment FROM (score INNER JOIN account ON score.userNo = account.userNo) INNER JOIN 
+            $sqlc = "SELECT score, comment FROM (score INNER JOIN account ON score.cellphone = account.cellphone) INNER JOIN 
                      course ON score.courseNo = course.courseNo WHERE course.courseNo = $cNo AND cookie = '$refer'";
             $stmtc = sqlsrv_query( $conn, $sqlc );
             if(sqlsrv_has_rows($stmtc)){
@@ -305,13 +305,13 @@
               <textarea class="form-control" name="comment" rows="3" placeholder="請輸入評論"></textarea>
             </div>
             <?php
-            $sqlu = "SELECT userNo FROM account WHERE cookie = '$refer'";
+            $sqlu = "SELECT cellphone FROM account WHERE cookie = '$refer'";
             $stmtu = sqlsrv_query( $conn, $sqlu );
             $rowu = sqlsrv_fetch_array( $stmtu, SQLSRV_FETCH_NUMERIC) or die('no');
             ?>
 
             <input type="hidden" name="cNo" value="<?php echo $cNo; ?>">
-            <input type="hidden" name="userNo" value="<?php echo $rowu[0]; ?>">
+            <input type="hidden" name="cellphone" value="<?php echo $rowu[0]; ?>">
             <input type="hidden" name="refer" value="<?php echo $refer; ?>">
             <button type="submit" class="btn btn-outline-info btn-block pricebtn">評論</button>
             <?php

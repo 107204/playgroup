@@ -9,6 +9,10 @@
   float: left;
 }
 
+.logo {
+  height: 150px;
+  text-align: center;
+}
 .navbar{
   background-color: #fff;
 }
@@ -33,6 +37,18 @@
 
 .title{
   margin-bottom: 1vw;
+}
+
+.trade{
+  font-size: 2rem;
+  font-weight: 1000;
+  color: #53D9CD;
+}
+
+.info{
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: gray;
 }
 
 .confirm{

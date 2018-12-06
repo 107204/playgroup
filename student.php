@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-tw">
 
@@ -47,11 +48,11 @@
            <td>孩童姓名</td>
            <td>孩童年齡</td>
            <td>家長姓名</td>
-           <td>家長電話</td>
+           <td>家長Email</td>
          </tr>
     <?php
-      $sqla = "SELECT kidName, DATEDIFF (MONTH , kidBirth, GETDATE()), userName, cellphone FROM enroll INNER JOIN (kid 
-               INNER JOIN account ON kid.userNo = account.userNo) ON enroll.kidNo = kid.kidNo WHERE enroll.courseNo = '$cNo'
+      $sqla = "SELECT kidName, DATEDIFF (MONTH , kidBirth, GETDATE()), userName, email FROM enroll INNER JOIN (kid 
+               INNER JOIN account ON kid.cellphone = account.cellphone) ON enroll.kidNo = kid.kidNo WHERE enroll.courseNo = '$cNo'
                AND cookie = '$refer';";
       $stmta = sqlsrv_query( $conn, $sqla );
       while($rowa = sqlsrv_fetch_array( $stmta, SQLSRV_FETCH_NUMERIC)){

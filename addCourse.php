@@ -24,7 +24,7 @@
       <p class="title-font">開一門好課</p>
       
       <div class="rounded inside">
-        <form action="post.php" method="post" name="add" class="add" enctype="multipart/form-data">
+        <form action="inCourse.php" method="post" name="add" class="add" enctype="multipart/form-data">
 
             <?php $uid = base64_decode($_GET['refer']); ?> 
             <input type="hidden" name="uid" value="<?php echo $uid; ?>">
@@ -115,7 +115,7 @@
             </div>
 
             <div class="form-group">
-              <label for="cTotal">人數</label>
+              <label for="cTotal">報名人數上限</label>
               <input type="number" class="form-control" name="price" placeholder="請輸入人數上限" required>
             </div>
 

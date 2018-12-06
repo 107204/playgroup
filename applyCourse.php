@@ -29,6 +29,8 @@
   <?php
   require 'config.php';
 
+  $k = 1;
+  $price = 0;
   $cNo = $_POST['cNo'];
   $refer = base64_decode($_POST['refer']);
   if($refer =='nolog'){
@@ -36,19 +38,23 @@
   } else {
   ?>
   <div class="rounded inside">
-    <form action="#" method="post" name="add"> 
+    <form action="checkApply.php" method="post" name="add"> 
       <?php 
       $sql = "SELECT course, city, district, price, agelower, ageupper FROM course WHERE courseNo = '$cNo'";
       $stmt = sqlsrv_query( $conn, $sql );
       $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_NUMERIC);
+      $price = $row[3];
 
-      $sqla = "SELECT userNo, userName, cellphone FROM account WHERE account.cookie = '$refer'";
+      $sqla = "SELECT cellphone, userName, cellphone FROM account WHERE account.cookie = '$refer'";
       $stmta = sqlsrv_query( $conn, $sqla );
       $rowa = sqlsrv_fetch_array( $stmta, SQLSRV_FETCH_NUMERIC);
 
       ?>
       <input type="hidden" name="cNo" value="<?php echo $cNo; ?>">
       <input type="hidden" name="refer" value="<?php echo $refer; ?>">
+      <input type="hidden" id="total" name="total" value="0">
+      <input type="hidden" name="cellphone" value="<?php echo $rowa[2]; ?>">
+
       <div class="container-fluid">
         <div class="card-deck">
           <div class="card-body">
@@ -74,13 +80,12 @@
 
         <div class="form-group">
           <label for="pPhone">聯絡電話</label>
-          <input type="text" class="form-control" name="cName" value="<?php echo $rowa[2];?>" readonly>
+          <input type="text" class="form-control" name="cName" value="<?php echo $rowa[2];?>">
         </div>
 
         <div class="form-group">
-          <label for="agelower">上課場次</label>
-          <select name="agelower" class="form-control" required>
-            <option selected>請選擇上課場次</option>
+          <label for="courseTime">上課場次</label>
+          <select name="courseTime" class="form-control" required>
             <?php
             $sqlp = "SELECT courseDate, startTime, endTime, enLimit, enSum, DATEPART(hh, startTime), RIGHT('0' + CAST(
                      DATEPART(n, startTime) AS VARCHAR),2), DATEPART(hh, endTime), RIGHT('0' + CAST(DATEPART(n, endTime) 
@@ -101,23 +106,25 @@
           
           <?php
           $sqlk = "SELECT kidNo, kidName, DATEDIFF (MONTH , kidBirth, GETDATE())FROM account INNER JOIN kid 
-                  ON account.userNo = kid.userNo WHERE account.userNo = $rowa[0]";
+                  ON account.cellphone = kid.cellphone WHERE account.cellphone = $rowa[0]";
           $stmtk = sqlsrv_query( $conn, $sqlk );
+          
           while($rowk = sqlsrv_fetch_array( $stmtk, SQLSRV_FETCH_NUMERIC)){
             $age = round($rowk[2]/12);
           ?>
           <div>
-            <input type="checkbox" id="child" name="child[]" value="<?php echo $rowk[0] ?>" onclick="check(this);" />
+            <input type="checkbox" id="child<?php echo $k;?>" name="child[]" value="<?php echo $rowk[0]; ?>" onclick="myFunction()">
             <label for="child[]"><?php echo $rowk[1]; ?>&nbsp;&nbsp;<?php echo $age; ?>歲</label>
           </div>
           <?php
-          } ?>
+          $k++;
+           } ?>
 
         </div>
 
         <div class="form-group">
-          <label for="Note">備註</label>
-          <input type="text" class="form-control" name="cName" placeholder="備註需求">
+          <label for="note">備註</label>
+          <input type="text" class="form-control" name="note" placeholder="備註需求" >
         </div>
         <br>
             
@@ -126,14 +133,14 @@
           <div class="pull-right">
             <p align=right>
               <span id="twd">TWD</span>
-              <span id="tPrice">200</span>
+              <span id="tPrice">0</span>
             </p>
           </div>
         </div>
 
         <div class="confirm">
           <input type="button" class="btn btn-outline-danger" onclick="history.back()" value="取消">
-          <button class="btn btn-outline-info" onclick="checkOut('CREDIT')">付款(下一步)</button>
+          <button type="submit" class="btn btn-outline-info">下一步</button>
         </div>
         
         </div>
@@ -142,22 +149,35 @@
   <?php } ?>
 
   <script>
-  function check(elememt){
-    var total = 0;
-    var price = document.getElementById("price");
-    if(element.checked){
-      total += price;
-      document.getElementById("tPrice").innerHTML = total;
+  function myFunction() {
+    var h = <?php echo $k; ?>;
+    var price = parseInt(<?php echo $price; ?>);
+    var total= 0;
+    var count = 0;
+    // var total= parseInt(document.getElementById("tPrice").textContent);
+    
+    s1 = document.getElementById("child1");
+    s2 = document.getElementById("child2");
+    s3 = document.getElementById("child3");
+    
+    if (s1.checked ){
+      if(s2.checked){
+        count = 2;
+      }else if(!s2.checked){
+        count = 1;
+      }
+    }else if(!s1.checked){
+      if(s2.checked){
+       count = 1;
+      }else if(!s2.checked){
+        count = 0;
+      }
     }
+      total = total+count*price;
+      document.getElementById("tPrice").innerHTML = total;
+      document.getElementById("total").value = total;
+    
   }
-  </script>
-
-  <script src="https://payment-stage.ecpay.com.tw/Scripts/SP/ECPayPayment_1.0.0.js"
-   data-MerchantID="2000132"
-   data-SPToken="749E6D776D8D42B3ACE8F5462BB806BF "
-   data-PaymentType="CREDIT"
-   data-PaymentName="信用卡"
-   data-CustomerBtn="1" >
   </script>
 
   <!--script-->
